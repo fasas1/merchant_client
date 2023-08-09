@@ -1,14 +1,13 @@
-import React from 'react';
-import { Header } from '../Components/Layout';
-
-
+import React from "react";
+import { Header } from "../Components/Layout";
 
 
 function App() {
   return (
     <div>
-    <Header/>
-       Main componenet
+        <Header />
+        Main componenet
+   
     </div>
   );
 }
