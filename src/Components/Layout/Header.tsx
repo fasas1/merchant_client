@@ -19,11 +19,16 @@ import { Badge, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 
 
-
+// const useStyles = makeStyles({
+//      page:{
+//         background:'#f9f9f9'
+//      }
+// })
 interface Props {
     darkMode:boolean,
     handleThemeChange: () => void;
 }
+
 const drawerWidth = 240;
 //const navItems = ['Home', 'About', 'Contact'];
 
@@ -35,15 +40,15 @@ const rightLinks = [
 function DrawerAppBar({darkMode, handleThemeChange}: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
+   
       <Divider />
     </Box>
   );
@@ -77,9 +82,8 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
                   component={NavLink}
                   key={path}
                   to={path}
-                  sx={{color:'#fff'}}
-              
-                >
+                  sx={{ color: 'inherit' }}
+        >
                  {title.toUpperCase()}
                 </ListItem>
               ))}
@@ -109,7 +113,29 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
             },
           }}
         >
-          {drawer}
+                 <List  sx={{
+            display: { xs: "block", sm: "none" },  "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            }}}>
+              {rightLinks.map(({ title, path }) => (
+                <ListItem
+                  component={NavLink}
+                  key={path}
+                  to={path}
+                  sx={{ color: '#8C8C8C' }}
+              
+                >
+                 {title.toUpperCase()}
+                </ListItem>
+              ))}
+               <IconButton>
+               <Badge badgeContent={5} >
+                  <MailIcon/>
+               </Badge>
+            </IconButton>
+            </List>
+         
         </Drawer>
       </Box>
     </Box>
