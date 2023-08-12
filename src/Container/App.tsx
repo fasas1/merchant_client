@@ -1,32 +1,31 @@
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import { Header } from "../Components/Layout";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { orange } from "@mui/material/colors";
-import { productModel } from "../Interfaces";
+import { ThemeProvider, createTheme} from "@mui/material/styles";
+import { orange} from "@mui/material/colors";
+import { Home, NotFound,ProductDetails } from "../Pages";
+import { Container } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+
+
 //import Banner from "../Pages/Banner";
 
 
 
 
 function App() {
-  const [products, setProducts] = useState<productModel[]>([])
+
   const [darkMode, setDarkMode] = useState(false);
-  const  paletteType = darkMode ? 'dark' : 'light'
-  
+ // const  paletteType = darkMode ? 'dark' : 'light'
 
- useEffect(() =>{
-    fetch("https://localhost:7147/api/Product")
-    .then((response) => response.json())
-    .then((data) =>{
-       console.log(data)
-       setProducts(data.result)
-    })
- }, [])
 
- 
 const theme = createTheme({
   palette: {
-     mode: paletteType,
+    // mode: paletteType,
+    mode: darkMode ? 'dark' : 'light',
+    background: {
+      default: darkMode ? '#1c1c1c' : '#f0f0f0', // Dark and Light mode backgrounds
+      paper: darkMode ? '#333' : '#fff',       // Dark and Light mode paper colors
+    },
      primary:{
        main: '#fefefe'
      },
@@ -41,11 +40,20 @@ function handleThemeChange(){
 
   return (
     <div>
+  
          <ThemeProvider  theme={theme}>
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-        {/* <Banner/> */}
-
+        {/* <Banner/> */}    <Container>
+        <Routes>
+          <Route path="/" element={ <Home/>}/>
+          <Route path="/productDetails/:productId" element={<ProductDetails/>}/> 
+          <Route path="*" element={<NotFound/>}/> 
+        </Routes>
+    
+       
+         </Container>
         </ThemeProvider>
+    
     </div>
   );
 }
