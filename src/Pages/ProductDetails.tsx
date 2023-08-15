@@ -9,8 +9,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetProductByIdQuery } from '../Apis/productApi'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
@@ -23,7 +23,20 @@ import RemoveIcon from '@mui/icons-material/Remove';
 function ProductDetails() {
   const { productId } = useParams()
   const { data, isLoading } = useGetProductByIdQuery(productId)
-  console.log(data)
+  const [quantity, setQuantity] = useState(1)
+  const navigate = useNavigate()
+
+
+  const  handleQuantity = (counter:number) => {
+      let newQuantity = quantity + counter;
+
+      if(newQuantity == 0){
+          newQuantity = 1
+      } 
+      setQuantity(newQuantity);
+        return;
+  }
+
 
   return (
     <Box sx={{ p: 4 }}>
@@ -32,7 +45,7 @@ function ProductDetails() {
         {!isLoading ? (
           <>
             <Grid item xs={6}>
-              <img src={data.result.image} style={{ width: '80%' }} />
+              <img src={data.result.image} alt='image-details' style={{ width: '80%' }} />
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h3">{data.result.name}</Typography>
@@ -57,9 +70,19 @@ function ProductDetails() {
                        {data.result.price}    
                     </TableCell>
                     <TableCell sx={{display:'flex'}}>
-                    <IconButton><AddIcon/></IconButton>
-                    <span style={{margin:'10px 10px 0 10px'}}>XX</span>
-                    <IconButton><RemoveIcon/></IconButton>
+                    <IconButton
+                     onClick={() =>{
+                         handleQuantity(+1)
+                     }}>
+                      <AddIcon/>
+                    </IconButton>
+                    <span style={{margin:'10px 10px 0 10px'}}>{quantity}</span>
+                    <IconButton
+                      onClick={() =>{
+                        handleQuantity(-1)
+                    }}
+                    ><RemoveIcon/>
+                    </IconButton>
                     </TableCell>
                     </TableRow>
                   </TableBody>
@@ -81,6 +104,9 @@ function ProductDetails() {
                 <Button
                   variant="contained"
                   sx={{ backgroundColor: '#000', color: 'white' }}
+                  onClick={() => {
+                     navigate(-1)
+                  }}
                 >
                   Back to Home
                 </Button>

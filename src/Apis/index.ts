@@ -1,3 +1,5 @@
 import productApi from "./productApi";
+import shoppingCartApi from "./shoppingCartApi"
 
-export { productApi }
+
+export { productApi, shoppingCartApi }

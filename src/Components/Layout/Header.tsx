@@ -15,7 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Routes, Route, NavLink } from "react-router-dom";
-import { Badge, Switch } from "@mui/material";
+import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 
 
@@ -56,7 +56,9 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
+    
       <AppBar component="nav">
+      <Container>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -72,7 +74,7 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            Merchant Gadgets
           </Typography>
           <Switch checked={darkMode} onChange={handleThemeChange} />
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
@@ -96,6 +98,7 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
            
           </Box>
         </Toolbar>
+        </Container>
       </AppBar>
       <Box component="nav">
         <Drawer
@@ -138,6 +141,7 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
          
         </Drawer>
       </Box>
+   
     </Box>
   );
 }

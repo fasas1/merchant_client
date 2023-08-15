@@ -7,7 +7,8 @@ import ProductCard from './ProductCard';
 import Grid from "@mui/material/Grid";
 import { useDispatch } from 'react-redux';
 import { setProduct } from '../../../Storage/Redux/productSlice';
-
+import Skeleton from '@mui/material/Skeleton';
+import { Stack, Toolbar } from '@mui/material';
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -21,10 +22,21 @@ function ProductList() {
 
   if (isLoading) {
     return <div>
-       <Box component="main" sx={{ p: 3, display: 'flex' }}> 
-       
-       <h1>Loading...</h1>
-       </Box> </div>;
+       <Box component="main" sx={{ p: 4 }}> 
+       <Toolbar/>
+       <Stack>
+       <Skeleton variant="rectangular" width={310} height={218} animation='wave'/>
+       <Skeleton />
+              <Skeleton width="60%" />
+              </Stack>
+              <Stack>
+       <Skeleton variant="rectangular" width={310} height={218} animation='wave'/>
+       <Skeleton />
+              <Skeleton width="60%" />
+              </Stack>
+       </Box>
+     
+        </div>;
   }
 
   return (
