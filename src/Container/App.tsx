@@ -1,21 +1,30 @@
-import { useState} from "react";
+import {useEffect,useState} from "react";
 import { Header } from "../Components/Layout";
 import { ThemeProvider, createTheme} from "@mui/material/styles";
 import { orange} from "@mui/material/colors";
-import { Home, NotFound,ProductDetails } from "../Pages";
+import { Home, NotFound,ProductDetails, ShoppingCart } from "../Pages";
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-
-
-//import Banner from "../Pages/Banner";
+import { useDispatch } from "react-redux";
+import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
+import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice ";
 
 
 
 
 function App() {
+    const dispatch = useDispatch()
+    const {data, isLoading} = useGetShoppingCartQuery("d2e467d9-51d3-4298-8246-c5d048e5f0c2")
 
   const [darkMode, setDarkMode] = useState(false);
  // const  paletteType = darkMode ? 'dark' : 'light'
+
+useEffect(() => {
+     if(!isLoading){
+        dispatch(setShoppingCart(data.result?.cartItems))
+     }
+},[data])
+
 
 
 const theme = createTheme({
@@ -43,10 +52,11 @@ function handleThemeChange(){
   
          <ThemeProvider  theme={theme}>
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-        {/* <Banner/> */}    <Container>
+       <Container>
         <Routes>
           <Route path="/" element={ <Home/>}/>
           <Route path="/productDetails/:productId" element={<ProductDetails/>}/> 
+          <Route path="/ShoppingCart" element={<ShoppingCart/>}/> 
           <Route path="*" element={<NotFound/>}/> 
         </Routes>
     

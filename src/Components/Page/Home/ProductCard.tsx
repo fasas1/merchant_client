@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Toolbar from '@mui/material/Toolbar';
 //import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -13,6 +13,10 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { GiShoppingCart } from "react-icons/gi";
 import {Link } from "react-router-dom";
+import {useParams } from 'react-router-dom'
+import { useUpdateShoppingCartMutation } from '../../../Apis/shoppingCartApi';
+import { Backdrop } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 interface Props {
@@ -35,7 +39,31 @@ function formatNumberToThousands(number: number): string {
 }
 
 function ProductCard(props : Props) {
+  const { productId } = useParams()
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false)
+  const [updateShoppingCart] = useUpdateShoppingCartMutation();
   const formattedPrice = formatNumberToThousands(props.product.price);
+  const [open, setOpen] = React.useState(false);
+
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // const handleOpen = () => {
+   
+  // };
+  const handleAddToCart = async (productId:number) =>{
+    setIsAddingToCart(true)
+    setOpen(true);
+  const response =  await updateShoppingCart({
+    productId:productId, 
+    updateQuantityBy:1,
+     userId:'d2e467d9-51d3-4298-8246-c5d048e5f0c2'
+   })
+    console.log(response)
+    setIsAddingToCart(false)
+}
 
  
   return (
@@ -49,25 +77,39 @@ function ProductCard(props : Props) {
             </IconButton>
             }
             action={
-              <IconButton aria-label="settings" sx={{ background: "#E7F5FF",color:'red' }}>
+              <IconButton aria-label="settings"
+                sx={{ 
+                background: "#E7F5FF",color:'red' 
+                }}
+                onClick={()=> handleAddToCart(props.product.id)}>
                <GiShoppingCart/>
               </IconButton>
             }
             />
-            <Link to={`/productDetails/${props.product.id}`}>
-             <CardMedia
-        component="img"
-        height="289"
-         sx={{ 
-          cursor:'pointer',
-          transition: 'transform 0.3s',
-          '&:hover': {
-            transform: 'scale(1.1)', // Apply a scale effect on hover
-          },
-        }}
-      src={props.product.image}
-      />
-      </Link>
+             {isAddingToCart?(<div>
+                 <Backdrop
+                   sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                   open={open}
+                   onClick={handleClose}>
+                          <CircularProgress color="inherit" />
+                 </Backdrop>
+             </div>):(
+                 <Link to={`/productDetails/${props.product.id}`}>
+                 <CardMedia
+            component="img"
+            height="289"
+             sx={{ 
+              cursor:'pointer',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'scale(1.1)', // Apply a scale effect on hover
+              },
+            }}
+          src={props.product.image}
+          />
+          </Link>
+             )}
+         
         <CardContent>
         <Typography gutterBottom variant="h6" component="div">
         {props.product.name}

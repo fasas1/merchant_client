@@ -1,4 +1,6 @@
 import Home from "./Home";
 import ProductDetails from "./ProductDetails";
 import NotFound from "./NotFound";
-export {Home, ProductDetails, NotFound}
+import ShoppingCart from "./ShoppingCart";
+
+export {Home, ProductDetails, NotFound, ShoppingCart}

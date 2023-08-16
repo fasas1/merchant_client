@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useGetProductByIdQuery } from '../Apis/productApi'
 import Toolbar from '@mui/material/Toolbar'
 import Button from '@mui/material/Button'
@@ -18,12 +18,17 @@ import Stack from '@mui/material/Stack'
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useUpdateShoppingCartMutation } from '../Apis/shoppingCartApi'
+
+
 
 
 function ProductDetails() {
   const { productId } = useParams()
   const { data, isLoading } = useGetProductByIdQuery(productId)
   const [quantity, setQuantity] = useState(1)
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false)
+  const [updateShoppingCart] = useUpdateShoppingCartMutation()
   const navigate = useNavigate()
 
 
@@ -37,6 +42,17 @@ function ProductDetails() {
         return;
   }
 
+  const handleAddToCart = async (productId:number) =>{
+       setIsAddingToCart(true)
+      
+     const response =  await updateShoppingCart({
+       productId:productId, 
+       updateQuantityBy:quantity,
+        userId:'d2e467d9-51d3-4298-8246-c5d048e5f0c2'
+      })
+       console.log(response)
+       setIsAddingToCart(false)
+  }
 
   return (
     <Box sx={{ p: 4 }}>
@@ -94,13 +110,16 @@ function ProductDetails() {
                 sx={{ minHeight: 20, height: 20 }}
               />
               <Stack direction="row" spacing={2}>
+                <Link to="/ShoppingCart">
                 <Button
                   variant="contained"
                   color="secondary"
                   sx={{ color: 'white' }}
+                  onClick={()=> handleAddToCart(data.result.id)}
                 >
                   Add to Cart
                 </Button>
+                </Link>
                 <Button
                   variant="contained"
                   sx={{ backgroundColor: '#000', color: 'white' }}

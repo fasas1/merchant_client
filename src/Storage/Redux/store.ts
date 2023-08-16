@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { productReducer } from "./productSlice";
 import { productApi, shoppingCartApi } from "../../Apis";
+import { shoppingCartReducer } from "./shoppingCartSlice ";
 
 
 const store = configureStore({
       reducer:{
            productReducer : productReducer,
+           shoppingCartStore: shoppingCartReducer,
            [productApi.reducerPath]: productApi.reducer,
            [shoppingCartApi.reducerPath] : shoppingCartApi.reducer
       },

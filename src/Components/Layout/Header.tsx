@@ -14,9 +14,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route, NavLink, Link } from "react-router-dom";
 import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
+import {GiShoppingCart} from "react-icons/gi"
+
 
 
 // const useStyles = makeStyles({
@@ -24,6 +26,8 @@ import MailIcon from "@mui/icons-material/Mail";
 //         background:'#f9f9f9'
 //      }
 // })
+
+
 interface Props {
     darkMode:boolean,
     handleThemeChange: () => void;
@@ -90,9 +94,12 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
                 </ListItem>
               ))}
                <IconButton>
-               <Badge badgeContent={5} >
-                  <MailIcon/>
-               </Badge>
+             
+                <Link to="/ShoppingCart"
+                          color="secondary">
+                  <GiShoppingCart  style={{ color: 'secondary' }}/>
+                  </Link>
+              
             </IconButton>
             </List>
            

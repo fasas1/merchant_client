@@ -1,7 +1,9 @@
 import productModel from "./productModel";
-
-
+import shoppingCartModel from "./shoppingCartModel";
+import cartItemModel from "./cartItemModel";
 
 export type{
-     productModel
+     productModel,
+     shoppingCartModel,
+     cartItemModel
 }
