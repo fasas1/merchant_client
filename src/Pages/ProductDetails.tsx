@@ -60,10 +60,10 @@ function ProductDetails() {
       <Grid container>
         {!isLoading ? (
           <>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <img src={data.result.image} alt='image-details' style={{ width: '80%' }} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}  md={6}>
               <Typography variant="h3">{data.result.name}</Typography>
               <TableContainer>
                 <Table>
@@ -73,7 +73,7 @@ function ProductDetails() {
                       <TableCell>{data.result.name}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>Description</TableCell>
+                      <TableCell>Details</TableCell>
                       <TableCell>{data.result.description}</TableCell>
                     </TableRow>
                     <TableRow>
@@ -110,7 +110,7 @@ function ProductDetails() {
                 sx={{ minHeight: 20, height: 20 }}
               />
               <Stack direction="row" spacing={2}>
-                <Link to="/ShoppingCart">
+                <Link to="/shoppingCart">
                 <Button
                   variant="contained"
                   color="secondary"

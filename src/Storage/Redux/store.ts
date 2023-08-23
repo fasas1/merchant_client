@@ -11,7 +11,8 @@ const store = configureStore({
            [productApi.reducerPath]: productApi.reducer,
            [shoppingCartApi.reducerPath] : shoppingCartApi.reducer
       },
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productApi.middleware).concat(shoppingCartApi.middleware)
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+      .concat(productApi.middleware).concat(shoppingCartApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>;

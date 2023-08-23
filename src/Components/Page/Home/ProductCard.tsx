@@ -17,6 +17,7 @@ import {useParams } from 'react-router-dom'
 import { useUpdateShoppingCartMutation } from '../../../Apis/shoppingCartApi';
 import { Backdrop } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { MiniLoader } from '../Common';
 
 
 interface Props {
@@ -86,14 +87,16 @@ function ProductCard(props : Props) {
               </IconButton>
             }
             />
-             {isAddingToCart?(<div>
-                 <Backdrop
-                   sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                   open={open}
-                   onClick={handleClose}>
-                          <CircularProgress color="inherit" />
-                 </Backdrop>
-             </div>):(
+             {isAddingToCart?(
+             <div
+               style={{
+                position:"absolute",
+                left:"15px",
+                top:"15px"
+                }}>
+                    <MiniLoader/>
+             </div>)
+             :(
                  <Link to={`/productDetails/${props.product.id}`}>
                  <CardMedia
             component="img"
@@ -111,13 +114,16 @@ function ProductCard(props : Props) {
              )}
          
         <CardContent>
+  
         <Typography gutterBottom variant="h6" component="div">
         {props.product.name}
           </Typography>
         <Typography variant="body2" color="text.secondary">
-           {props.product.description.slice(0, 50)}....
-          
+        <Link to={`/productDetails/${props.product.id}`} style={{color:'#000', textDecoration:'none'}}>
+           {props.product.description.slice(0, 50)}...
+           </Link>
         </Typography>
+      
         <Typography gutterBottom variant="h5" component="div"sx={{ textAlign: 'center', m: 1 }}>
              <span>&#8358;</span>{formattedPrice}
           </Typography>

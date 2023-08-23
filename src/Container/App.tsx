@@ -26,7 +26,6 @@ useEffect(() => {
 },[data])
 
 
-
 const theme = createTheme({
   palette: {
     // mode: paletteType,
@@ -56,12 +55,13 @@ function handleThemeChange(){
         <Routes>
           <Route path="/" element={ <Home/>}/>
           <Route path="/productDetails/:productId" element={<ProductDetails/>}/> 
-          <Route path="/ShoppingCart" element={<ShoppingCart/>}/> 
+          <Route path="/shoppingCart" element={<ShoppingCart/>}/> 
           <Route path="*" element={<NotFound/>}/> 
         </Routes>
     
        
          </Container>
+         
         </ThemeProvider>
     
     </div>

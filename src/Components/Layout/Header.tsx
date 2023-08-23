@@ -18,14 +18,9 @@ import { Routes, Route, NavLink, Link } from "react-router-dom";
 import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import {GiShoppingCart} from "react-icons/gi"
-
-
-
-// const useStyles = makeStyles({
-//      page:{
-//         background:'#f9f9f9'
-//      }
-// })
+import { cartItemModel } from "../../Interfaces";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Storage/Redux/store";
 
 
 interface Props {
@@ -42,6 +37,11 @@ const rightLinks = [
 ];
 
 function DrawerAppBar({darkMode, handleThemeChange}: Props) {
+  const shoppingCartFromStore: cartItemModel[] = useSelector(
+    (state: RootState) => state.shoppingCartStore.cartItems ?? []
+  );
+
+ 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
 
@@ -95,9 +95,10 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
               ))}
                <IconButton>
              
-                <Link to="/ShoppingCart"
+                <Link to="/shoppingCart"
                           color="secondary">
                   <GiShoppingCart  style={{ color: 'secondary' }}/>
+                   {shoppingCartFromStore?.length? `(${shoppingCartFromStore.length})` : " "}
                   </Link>
               
             </IconButton>

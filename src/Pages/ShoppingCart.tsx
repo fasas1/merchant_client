@@ -1,20 +1,18 @@
 import React from 'react'
-import { CartSummary } from '../Components/Page/Cart'
+//import { CartSummary } from '../Components/Page/Cart'
+import { Box } from '@mui/material'
+import { CartSummary } from '../Components/Page/Cart';
 
 
 
-function ShoppingCart() {
+function ShoppingCart(): JSX.Element  {
   return (
-    <div>
-      <h1>Shoping Cart</h1>
-      <h1>Shoping Cart</h1>
-      <CartSummary/>
-      <h1>Shoping Cart</h1>
-      <h1>Shoping Cart</h1>
-
-
-    </div>
+    <>
+    <Box sx={{p:4}}>
+       <CartSummary/>
+    </Box>
+    </>
   )
 }
 
-export default ShoppingCart
+export default ShoppingCart;
