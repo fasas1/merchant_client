@@ -20,6 +20,7 @@
   
 ## Screenshot
 ### ![Capture](https://github.com/fasas1/merchant_client/assets/47166372/8d8006dc-195f-4eff-86e3-c1660d74528e)
+### ![Capture5](https://github.com/fasas1/merchant_client/assets/47166372/a68c8936-04de-45bd-a227-613f8d3b0cfd)
 ### ![Capture3](https://github.com/fasas1/merchant_client/assets/47166372/a6274186-06d2-436e-af98-e252309baf57)
 ### ![Capture](https://github.com/fasas1/merchant_client/assets/47166372/87e3fcb2-cbb8-4165-bb74-a0e8c0d5d19b)
 ### ![Capture2](https://github.com/fasas1/merchant_client/assets/47166372/7523975d-7bde-43da-a253-e94cc438d523)
