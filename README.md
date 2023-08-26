@@ -1,4 +1,4 @@
-# Merchant Gadgets Web App
+# Merchant Gadget Web App
 ### Welcome to Merchant Gadgets Web App, a full-fledged online shopping platform with user and admin dashboards.
 
 ## Introduction
