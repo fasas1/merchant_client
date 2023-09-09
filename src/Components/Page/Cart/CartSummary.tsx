@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { cartItemModel } from "../../../Interfaces";
 import { RootState } from "../../../Storage/Redux/store";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import {
   Box,
   Grid,
@@ -16,57 +16,66 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button} from "@mui/material";
+  Button,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { removeFromCart, updateQuantity } from "../../../Storage/Redux/shoppingCartSlice ";
+import {
+  removeFromCart,
+  updateQuantity,
+} from "../../../Storage/Redux/shoppingCartSlice ";
 import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
 import { MiniLoader } from "../Common";
 
 function CartSummary() {
-  const [loading, setLoading] =useState(false)
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
 
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
-  
+
   if (!shoppingCartFromStore) {
     return <div>Cart Empty</div>;
   }
 
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setLoading(true)
-  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+  };
 
-
-
-  const handleQuantity = (updateQuantityBy: number, cartItem: cartItemModel) => {
-    if ((updateQuantityBy == -1 && cartItem.quantity == 1) || updateQuantityBy == 0) {
-        //Remove Item
-        updateShoppingCart({
-          productId: cartItem.product?.id,
-          updateQuantityBy: 0,
-          userId:"d2e467d9-51d3-4298-8246-c5d048e5f0c2"
-    })
-          dispatch(removeFromCart({cartItem, quantity:0}))   
-          
-          
-        } else{
-          //Update quantity with newquantity
-          updateShoppingCart({
-            productId: cartItem.product?.id,
-            updateQuantityBy: updateQuantityBy,
-            userId:"d2e467d9-51d3-4298-8246-c5d048e5f0c2"
-      })
-          dispatch(updateQuantity({cartItem, quantity:cartItem.quantity!+updateQuantityBy})) 
-           
-        
-        }
-      };
+  const handleQuantity = (
+    updateQuantityBy: number,
+    cartItem: cartItemModel
+  ) => {
+    if (
+      (updateQuantityBy == -1 && cartItem.quantity == 1) ||
+      updateQuantityBy == 0
+    ) {
+      //Remove Item
+      updateShoppingCart({
+        productId: cartItem.product?.id,
+        updateQuantityBy: 0,
+        userId: "d2e467d9-51d3-4298-8246-c5d048e5f0c2",
+      });
+      dispatch(removeFromCart({ cartItem, quantity: 0 }));
+    } else {
+      //Update quantity with newquantity
+      updateShoppingCart({
+        productId: cartItem.product?.id,
+        updateQuantityBy: updateQuantityBy,
+        userId: "d2e467d9-51d3-4298-8246-c5d048e5f0c2",
+      });
+      dispatch(
+        updateQuantity({
+          cartItem,
+          quantity: cartItem.quantity! + updateQuantityBy,
+        })
+      );
+    }
+  };
 
   return (
     <Box sx={{ p: 4 }}>
@@ -108,31 +117,32 @@ function CartSummary() {
                       </TableCell>
                       <TableCell align="center">
                         <IconButton
-                          onClick={() =>{
-                            handleQuantity(-1, cartItem)
-                        }}>
+                          onClick={() => {
+                            handleQuantity(-1, cartItem);
+                          }}
+                        >
                           <RemoveIcon />
                         </IconButton>
                         {cartItem.quantity}
-                        <IconButton 
-                          onClick={() =>{
-                            handleQuantity(1, cartItem)
-                        }}>
+                        <IconButton
+                          onClick={() => {
+                            handleQuantity(1, cartItem);
+                          }}
+                        >
                           <AddIcon />
                         </IconButton>
                       </TableCell>
                       <TableCell align="right">
                         <span>&#8358;</span>
-                        {(cartItem.quantity! * cartItem.product!.price)
-                        
-                        }
+                        {cartItem.quantity! * cartItem.product!.price}
                       </TableCell>
                       <TableCell align="right">
                         <IconButton
-                          onClick={() =>{
-                            handleQuantity(0, cartItem)
-                        }}>
-                        <DeleteOutlineIcon style={{color:'red'}}/>
+                          onClick={() => {
+                            handleQuantity(0, cartItem);
+                          }}
+                        >
+                          <DeleteOutlineIcon style={{ color: "red" }} />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -142,31 +152,48 @@ function CartSummary() {
             </Table>
           </TableContainer>
         </Grid>
-        
-      <Grid item xs={12} md={4}>
-      <Box
-      onSubmit={handleSubmit}
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '45ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    > <Typography>Pickup Details</Typography>
-    <TextField id="filled-basic" label="Fullname" variant="outlined" required/>
-      <TextField id="filled-basic" label="Email" variant="outlined" required/>
-      <TextField id="standard-basic" label="Phone number" variant="outlined" required/>
 
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{ color: 'white' }}
-        disabled={loading}
-      >  {loading ? <MiniLoader/> : "Looks Good? Place Order!" }
-       </Button>
-    </Box>
-    
-       </Grid>  
+        <Grid item xs={12} md={4}>
+          <Box
+            onSubmit={handleSubmit}
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "45ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            {" "}
+            <Typography>Pickup Details</Typography>
+            <TextField
+              id="filled-basic"
+              label="Fullname"
+              variant="outlined"
+              required
+            />
+            <TextField
+              id="filled-basic"
+              label="Email"
+              variant="outlined"
+              required
+            />
+            <TextField
+              id="standard-basic"
+              label="Phone number"
+              variant="outlined"
+              required
+            />
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ color: "white" }}
+              disabled={loading}
+            >
+              {" "}
+              {loading ? <MiniLoader /> : "Looks Good? Place Order!"}
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

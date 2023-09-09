@@ -33,8 +33,12 @@ const drawerWidth = 240;
 
 const rightLinks = [
   { title: "Product", path: "/" },
-  { title: "Service", path: "/Service" },
-];
+  { title: "Logout", path: "/logout" },
+  { title: "Register", path: "/register" },
+  { title: "Login", path: "/login"}
+
+]
+
 
 function DrawerAppBar({darkMode, handleThemeChange}: Props) {
   const shoppingCartFromStore: cartItemModel[] = useSelector(
