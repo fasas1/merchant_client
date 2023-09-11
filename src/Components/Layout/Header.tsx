@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,97 +17,104 @@ import Button from "@mui/material/Button";
 import { Routes, Route, NavLink, Link } from "react-router-dom";
 import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
-import {GiShoppingCart} from "react-icons/gi"
+import { GiShoppingCart } from "react-icons/gi";
 import { cartItemModel, userModel } from "../../Interfaces";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Storage/Redux/store";
 
-
 interface Props {
-    darkMode:boolean,
-    handleThemeChange: () => void;
+  darkMode: boolean;
+  handleThemeChange: () => void;
 }
 
 const drawerWidth = 240;
-//const navItems = ['Home', 'About', 'Contact'];
 
-const rightLinks = [
-  { title: "Product", path: "/" },
-  { title: "Logout", path: "/logout" },
-  { title: "Register", path: "/register" },
-  { title: "Login", path: "/login"}
-
-]
-
-
-function DrawerAppBar({darkMode, handleThemeChange}: Props) {
+function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
 
- 
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Added for authentication status
+  const [showRegister, setShowRegister] = useState(false); // Added for registration screen
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-   
-      <Divider />
-    </Box>
-  );
+  // Function to handle user logout
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-    
+
       <AppBar component="nav">
-      <Container>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Merchant Gadgets
-          </Typography>
-          <Switch checked={darkMode} onChange={handleThemeChange} />
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <List sx={{display:'flex'}}>
-              {rightLinks.map(({ title, path }) => (
-                <ListItem
-                  component={NavLink}
-                  key={path}
-                  to={path}
-                  sx={{ color: 'inherit' }}
-        >
-                 {title.toUpperCase()}
-                </ListItem>
-              ))}
-               <IconButton>
-             
-                <Link to="/shoppingCart"
-                          color="secondary">
-                  <GiShoppingCart  style={{ color: 'secondary' }}/>
-                   {shoppingCartFromStore?.length? `(${shoppingCartFromStore.length})` : " "}
-                  </Link>
-              
+        <Container>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
             </IconButton>
-            </List>
-           
-          </Box>
-        </Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Merchant Gadgets
+            </Typography>
+            <Switch checked={darkMode} onChange={handleThemeChange} />
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              <List sx={{ display: "flex" }}>
+                {isLoggedIn ? (
+                  <React.Fragment>
+                    <ListItem
+                      component={NavLink}
+                      to="/logout"
+                      sx={{ color: "inherit" }}
+                    >
+                      Logout
+                    </ListItem>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <ListItem
+                      component={NavLink}
+                      to="/register"
+                      sx={{ color: "inherit" }}
+                    >
+                      Register
+                    </ListItem>
+                    <ListItem
+                      component={NavLink}
+                      to="/login"
+                      sx={{ color: "inherit" }}
+                    >
+                      Login
+                    </ListItem>
+                  </React.Fragment>
+                )}
+                <IconButton>
+                  <Link
+                    to="/shoppingCart"
+                    color="secondary"
+                  >
+                    <GiShoppingCart style={{ color: "secondary" }} />
+                    {shoppingCartFromStore?.length
+                      ? `(${shoppingCartFromStore.length})`
+                      : " "}
+                  </Link>
+                </IconButton>
+              </List>
+            </Box>
+          </Toolbar>
         </Container>
       </AppBar>
       <Box component="nav">
@@ -126,32 +133,51 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
             },
           }}
         >
-                 <List  sx={{
-            display: { xs: "block", sm: "none" },  "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            }}}>
-              {rightLinks.map(({ title, path }) => (
+          <List
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {isLoggedIn ? (
+              <React.Fragment>
                 <ListItem
                   component={NavLink}
-                  key={path}
-                  to={path}
-                  sx={{ color: '#8C8C8C' }}
-              
+                  to="/logout"
+                  sx={{ color: "#8C8C8C" }}
                 >
-                 {title.toUpperCase()}
+                  Logout
                 </ListItem>
-              ))}
-               <IconButton>
-               <Badge badgeContent={5} >
-                  <MailIcon/>
-               </Badge>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <ListItem
+                  component={NavLink}
+                  to="/register"
+                  sx={{ color: "#8C8C8C" }}
+                >
+                  Register
+                </ListItem>
+                <ListItem
+                  component={NavLink}
+                  to="/login"
+                  sx={{ color: "#8C8C8C" }}
+                >
+                  Login
+                </ListItem>
+              </React.Fragment>
+            )}
+            <IconButton>
+              <Badge badgeContent={5}>
+                <MailIcon />
+              </Badge>
             </IconButton>
-            </List>
-         
+          </List>
         </Drawer>
       </Box>
-   
     </Box>
   );
 }
