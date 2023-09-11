@@ -18,7 +18,7 @@ import { Routes, Route, NavLink, Link } from "react-router-dom";
 import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import {GiShoppingCart} from "react-icons/gi"
-import { cartItemModel } from "../../Interfaces";
+import { cartItemModel, userModel } from "../../Interfaces";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Storage/Redux/store";
 
@@ -47,8 +47,6 @@ function DrawerAppBar({darkMode, handleThemeChange}: Props) {
 
  
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);

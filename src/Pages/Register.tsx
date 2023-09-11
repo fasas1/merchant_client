@@ -14,8 +14,11 @@ import {
 import RegIcon from "../Assets/Group 41.png";
 import { SD_Roles } from "../Utility/SD";
 import inputHelper from "../Helper";
+import { useRegisterUserMutation } from "../Apis/authApi";
+import apiResponse from "../Interfaces/apiResponse";
 
 function Register() {
+  const [registerUser] = useRegisterUserMutation()
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     userName: "",
@@ -31,10 +34,24 @@ function Register() {
     setUserInput(tempData);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
+    const response : apiResponse = await registerUser({
+      userName: userInput.userName,
+      password: userInput.password,
+      role: userInput.role,
+      name: userInput.name,
+    })
+
+    if(response.data){
+       console.log(response.data)
+    }else if(response.error){
+        console.log(response.error.data.errorMessages[0])
+    }
+    setLoading(false)
     // Handle form submission here
-    console.log("Form Submitted with data:", userInput);
+   // console.log("Form Submitted with data:", userInput);
   };
 
   return (
