@@ -14,13 +14,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Routes, Route, NavLink, Link } from "react-router-dom";
+import { Routes, Route, NavLink, Link, useNavigate} from "react-router-dom";
 import { Badge, Container, Switch } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import { GiShoppingCart } from "react-icons/gi";
 import { cartItemModel, userModel } from "../../Interfaces";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../Storage/Redux/store";
+import { emptyUserState, setLoggedInUser } from "../../Storage/Redux/userAuthSlice";
 
 interface Props {
   darkMode: boolean;
@@ -30,13 +31,19 @@ interface Props {
 const drawerWidth = 240;
 
 function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
 
+
+  const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Added for authentication status
-  const [showRegister, setShowRegister] = useState(false); // Added for registration screen
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Added for authentication status
+  // const [showRegister, setShowRegister] = useState(false); // Added for registration screen
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -44,7 +51,9 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
 
   // Function to handle user logout
   const handleLogout = () => {
-    setIsLoggedIn(false);
+      localStorage.removeItem("token")
+      dispatch(setLoggedInUser({...emptyUserState}))
+      navigate("/")
   };
 
   return (
@@ -72,18 +81,46 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
             </Typography>
             <Switch checked={darkMode} onChange={handleThemeChange} />
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <List sx={{ display: "flex" }}>
-                {isLoggedIn ? (
-                  <React.Fragment>
-                    <ListItem
-                      component={NavLink}
-                      to="/logout"
-                      sx={{ color: "inherit" }}
-                    >
-                      Logout
-                    </ListItem>
-                  </React.Fragment>
-                ) : (
+              <List sx={{ display: "flex", justifyContent:"center", alignItems:"center" }}>
+              <React.Fragment>      
+                  <ListItem
+                    component={NavLink}
+                    to="/authentication"
+                    sx={{ color: "inherit" }}
+                  
+                  >
+                    Authenticate
+                  </ListItem>
+                </React.Fragment>
+                <React.Fragment>      
+                  <ListItem
+                    component={NavLink}
+                    to="/authorization" 
+                    sx={{ color: "inherit" }}
+                  
+                  >
+                    Authorization
+                  </ListItem>
+                </React.Fragment>
+          
+                 {userData.id && (
+                  <>
+                <ListItem component={NavLink} to="" sx={{ color: "inherit" }}>
+              <Typography variant='body1'>Welcome,{typeof userData.fullName === 'string' ? userData.fullName.split(' ')[0] : ''}</Typography>
+                </ListItem>
+                  <React.Fragment>      
+                  <ListItem
+                    component={NavLink}
+                    to="/"
+                    sx={{ color: "inherit" }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </ListItem>
+                </React.Fragment>
+                </>
+                 )}
+                  {!userData.id && (
                   <React.Fragment>
                     <ListItem
                       component={NavLink}
@@ -101,7 +138,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
                     </ListItem>
                   </React.Fragment>
                 )}
-                <IconButton>
+                {/* <IconButton>
                   <Link
                     to="/shoppingCart"
                     color="secondary"
@@ -111,7 +148,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
                       ? `(${shoppingCartFromStore.length})`
                       : " "}
                   </Link>
-                </IconButton>
+                </IconButton> */}
               </List>
             </Box>
           </Toolbar>
@@ -142,7 +179,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
               },
             }}
           >
-            {isLoggedIn ? (
+    
               <React.Fragment>
                 <ListItem
                   component={NavLink}
@@ -152,7 +189,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
                   Logout
                 </ListItem>
               </React.Fragment>
-            ) : (
+
               <React.Fragment>
                 <ListItem
                   component={NavLink}
@@ -169,7 +206,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
                   Login
                 </ListItem>
               </React.Fragment>
-            )}
+      
             <IconButton>
               <Badge badgeContent={5}>
                 <MailIcon />

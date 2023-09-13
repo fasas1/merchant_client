@@ -9,12 +9,19 @@ import {
   ShoppingCart,
   Register,
   Login,
+  AuthenticationTest,
+  AuthenticationAdminTest,
+  AccessDenied,
 } from "../Pages";
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice ";
+import jwt_decode from "jwt-decode";
+import userModel from "../Interfaces/userModel";
+import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +31,16 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(false);
   // const  paletteType = darkMode ? 'dark' : 'light'
+
+
+  useEffect(() =>{
+    const localToken = localStorage.getItem("token")
+    if(localToken){
+      const {fullName, id, email, role} :userModel = jwt_decode(localToken)
+      dispatch(setLoggedInUser({fullName, id, email, role}))  
+  }
+},[])
+
 
   useEffect(() => {
     if (!isLoading) {
@@ -64,6 +81,9 @@ function App() {
             <Route path="/shoppingCart" element={<ShoppingCart />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/authorization"  element={<AuthenticationAdminTest/>}/>
+            <Route path="/authentication"   element={<AuthenticationTest/>} />
+            <Route path="/accessDenied" element={<AccessDenied/>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>

@@ -16,10 +16,14 @@ import { SD_Roles } from "../Utility/SD";
 import inputHelper from "../Helper";
 import { useRegisterUserMutation } from "../Apis/authApi";
 import apiResponse from "../Interfaces/apiResponse";
+import toastNotify from "../Helper/toastNotiy";
+import { useNavigate } from "react-router-dom";
+import { error } from "console";
 
 function Register() {
   const [registerUser] = useRegisterUserMutation()
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const [userInput, setUserInput] = useState({
     userName: "",
     password: "",
@@ -45,9 +49,10 @@ function Register() {
     })
 
     if(response.data){
-       console.log(response.data)
+        toastNotify("Registration successfull! Please login to continue.")
+        navigate("/login")
     }else if(response.error){
-        console.log(response.error.data.errorMessages[0])
+        toastNotify(response.error.data.errorMessages[0], "error")
     }
     setLoading(false)
     // Handle form submission here

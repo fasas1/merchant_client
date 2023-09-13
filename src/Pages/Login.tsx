@@ -96,6 +96,7 @@ function Login() {
             variant="outlined"
             color="secondary"
             required
+            type={"password"}
             name="password"
             fullWidth
             value={userInput.password}
