@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { cartItemModel } from "../../../Interfaces";
+import { cartItemModel, userModel } from "../../../Interfaces";
 import { RootState } from "../../../Storage/Redux/store";
 import TextField from "@mui/material/TextField";
 import {
@@ -29,6 +29,7 @@ import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
 import { MiniLoader } from "../Common";
 
 function CartSummary() {
+  const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
@@ -58,7 +59,7 @@ function CartSummary() {
       updateShoppingCart({
         productId: cartItem.product?.id,
         updateQuantityBy: 0,
-        userId: "d2e467d9-51d3-4298-8246-c5d048e5f0c2",
+        userId: userData.id,
       });
       dispatch(removeFromCart({ cartItem, quantity: 0 }));
     } else {
@@ -66,7 +67,7 @@ function CartSummary() {
       updateShoppingCart({
         productId: cartItem.product?.id,
         updateQuantityBy: updateQuantityBy,
-        userId: "d2e467d9-51d3-4298-8246-c5d048e5f0c2",
+        userId: userData.id,
       });
       dispatch(
         updateQuantity({

@@ -19,13 +19,16 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useUpdateShoppingCartMutation } from '../Apis/shoppingCartApi'
-import { apiResponse } from '../Interfaces'
+import { apiResponse, userModel } from '../Interfaces'
 import toastNotify from '../Helper/toastNotiy'
+import { useSelector } from 'react-redux'
+import { RootState } from '../Storage/Redux/store'
 
 
 
 
 function ProductDetails() {
+  const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
   const { productId } = useParams()
   const { data, isLoading } = useGetProductByIdQuery(productId)
   const [quantity, setQuantity] = useState(1)
@@ -45,12 +48,16 @@ function ProductDetails() {
   }
 
   const handleAddToCart = async (productId:number) =>{
+    if(!userData.id){
+      navigate("/login")  
+       return;
+    }
        setIsAddingToCart(true)
       
      const response :apiResponse =  await updateShoppingCart({
        productId:productId, 
        updateQuantityBy:quantity,
-        userId:'d2e467d9-51d3-4298-8246-c5d048e5f0c2'
+        userId:userData.id
       })
 
       if(response.data && response.data.isSuccess){

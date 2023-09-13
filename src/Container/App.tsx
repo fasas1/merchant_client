@@ -15,18 +15,20 @@ import {
 } from "../Pages";
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice ";
 import jwt_decode from "jwt-decode";
 import userModel from "../Interfaces/userModel";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
+import { RootState } from "../Storage/Redux/store";
 
 
 function App() {
   const dispatch = useDispatch();
+  const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
   const { data, isLoading } = useGetShoppingCartQuery(
-    "d2e467d9-51d3-4298-8246-c5d048e5f0c2"
+      userData.id
   );
 
   const [darkMode, setDarkMode] = useState(false);

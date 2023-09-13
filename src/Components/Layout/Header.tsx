@@ -82,27 +82,7 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
             <Switch checked={darkMode} onChange={handleThemeChange} />
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <List sx={{ display: "flex", justifyContent:"center", alignItems:"center" }}>
-              <React.Fragment>      
-                  <ListItem
-                    component={NavLink}
-                    to="/authentication"
-                    sx={{ color: "inherit" }}
-                  
-                  >
-                    Authenticate
-                  </ListItem>
-                </React.Fragment>
-                <React.Fragment>      
-                  <ListItem
-                    component={NavLink}
-                    to="/authorization" 
-                    sx={{ color: "inherit" }}
-                  
-                  >
-                    Authorization
-                  </ListItem>
-                </React.Fragment>
-          
+             
                  {userData.id && (
                   <>
                 <ListItem component={NavLink} to="" sx={{ color: "inherit" }}>
@@ -138,17 +118,16 @@ function DrawerAppBar({ darkMode, handleThemeChange }: Props) {
                     </ListItem>
                   </React.Fragment>
                 )}
-                {/* <IconButton>
+                <IconButton>
                   <Link
                     to="/shoppingCart"
                     color="secondary"
                   >
                     <GiShoppingCart style={{ color: "secondary" }} />
-                    {shoppingCartFromStore?.length
-                      ? `(${shoppingCartFromStore.length})`
-                      : " "}
+                    {userData.id && `(${shoppingCartFromStore.length})`}
+                   
                   </Link>
-                </IconButton> */}
+                </IconButton>
               </List>
             </Box>
           </Toolbar>

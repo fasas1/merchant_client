@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 //import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-import { productModel } from "../../../Interfaces";
+import { productModel, userModel } from "../../../Interfaces";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -13,11 +13,13 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { GiShoppingCart } from "react-icons/gi";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { MiniLoader } from "../Common";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Storage/Redux/store";
 
 interface Props {
   product: productModel;
@@ -39,11 +41,14 @@ function formatNumberToThousands(number: number): string {
 }
 
 function ProductCard(props: Props) {
+  const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
   const { productId } = useParams();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
   const formattedPrice = formatNumberToThousands(props.product.price);
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate()
+
 
   const handleClose = () => {
     setOpen(false);
@@ -52,12 +57,16 @@ function ProductCard(props: Props) {
 
   // };
   const handleAddToCart = async (productId: number) => {
+     if(!userData.id){
+       navigate("/login")  
+        return;
+     }
     setIsAddingToCart(true);
     setOpen(true);
     const response = await updateShoppingCart({
       productId: productId,
       updateQuantityBy: 1,
-      userId: "d2e467d9-51d3-4298-8246-c5d048e5f0c2",
+      userId: userData.id,
     });
     console.log(response);
     setIsAddingToCart(false);
