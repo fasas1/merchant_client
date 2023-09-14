@@ -39,7 +39,7 @@ function CartSummary() {
   );
 
   if (!shoppingCartFromStore) {
-    return <div>Cart Empty</div>;
+    return <div>Empty</div>;
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
