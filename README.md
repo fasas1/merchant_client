@@ -15,7 +15,7 @@
  - Manage product inventory and categories
   - Monitor sales analytics and reports
   -  View and process customer orders
-  -   Manage user accounts and roles
+  -   Manage user accounts and roles.
 
   
 ## Screenshot
