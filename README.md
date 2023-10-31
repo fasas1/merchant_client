@@ -7,7 +7,7 @@
 ##  Features
 ### User Dashboard
 - Browse and search for products
-- Add products to the cart
+- Add products to the carts
 - Place orders and track order history
 - Make payments securely
   
