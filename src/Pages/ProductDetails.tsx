@@ -37,15 +37,15 @@ function ProductDetails() {
   const navigate = useNavigate()
 
 
-  const  handleQuantity = (counter:number) => {
-      let newQuantity = quantity + counter;
+  // const  handleQuantity = (counter:number) => {
+  //     // let newQuantity = quantity + counter;
 
-      if(newQuantity == 0){
-          newQuantity = 1
-      } 
-      setQuantity(newQuantity);
-        return;
-  }
+  //     // if(newQuantity == 0){
+  //     //     newQuantity = 1
+  //     // } 
+  //     setQuantity(newQuantity);
+  //       return;
+  // }
 
   const handleAddToCart = async (productId:number) =>{
     if(!userData.id){
@@ -98,7 +98,7 @@ function ProductDetails() {
                       <TableCell><span>&#8358;</span>
                        {data.result.price}    
                     </TableCell>
-                    <TableCell sx={{display:'flex'}}>
+                    {/* <TableCell sx={{display:'flex'}}>
                     <IconButton
                      onClick={() =>{
                          handleQuantity(+1)
@@ -112,7 +112,7 @@ function ProductDetails() {
                     }}
                     ><RemoveIcon/>
                     </IconButton>
-                    </TableCell>
+                    </TableCell> */}
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -123,6 +123,15 @@ function ProductDetails() {
                 sx={{ minHeight: 20, height: 20 }}
               />
               <Stack direction="row" spacing={2}>
+              <Button
+                  variant="contained"
+                  sx={{ backgroundColor: '#000', color: 'white' }}
+                  onClick={() => {
+                     navigate(-1)
+                  }}
+                >
+                  Back to Home
+                </Button>
                 <Link to="/shoppingCart">
                 <Button
                   variant="contained"
@@ -133,15 +142,7 @@ function ProductDetails() {
                   Add to Cart
                 </Button>
                 </Link>
-                <Button
-                  variant="contained"
-                  sx={{ backgroundColor: '#000', color: 'white' }}
-                  onClick={() => {
-                     navigate(-1)
-                  }}
-                >
-                  Back to Home
-                </Button>
+                
               </Stack>
             </Grid>
           </>
