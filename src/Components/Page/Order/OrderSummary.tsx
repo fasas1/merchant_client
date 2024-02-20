@@ -12,12 +12,16 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import { useGetOrdersQuery } from "../../../Apis/orderApi";
 
 function OrderSummary() {
     const [paymentStatus, setPaymentStatus] = useState<null | string>(null);
     const userData : userModel = useSelector((state: RootState) => state.userAuthStore);
     const [loading, setLoading] = useState(false);
-
+    // const { data: orders, isLoading, isError } = useGetOrdersQuery({
+    //   status: 'completed',
+    // });
+    
     const shoppingCartFromStore: cartItemModel[] = useSelector(
         (state: RootState) => state.shoppingCartStore.cartItems ?? []
       );
@@ -71,6 +75,18 @@ function OrderSummary() {
         if (paymentData && paymentData.authorizationUrl)  {
           // Redirect the user to the PayStack payment page or handle as needed.
           window.location.href = paymentData.authorizationUrl;
+
+          // const orderDetailsDTO = [];
+          // shoppingCartFromStore.forEach((item) => {
+          //   const temporderDetails = {
+          //     productId: item.product?.id,
+          //     quantity: item.quantity,
+          //     itemName: item.product?.name,
+          //     price: item.product?.price,
+          //   };
+          //   orderDetailsDTO.push(temporderDetails);
+          // });
+          
         } else {
           console.error('Invalid response structure:', paymentData);
           setPaymentStatus('Invalid response structure');

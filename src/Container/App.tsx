@@ -26,7 +26,6 @@
 
 // import { Layout } from "../Components/AdminLayout";
 
-
 // function App() {
 //   const dispatch = useDispatch();
 //   const navigate = useNavigate();
@@ -38,15 +37,13 @@
 //   const [darkMode, setDarkMode] = useState(false);
 //   // const  paletteType = darkMode ? 'dark' : 'light'
 
-
 //   useEffect(() =>{
 //     const localToken = localStorage.getItem("token")
 //     if(localToken){
 //       const {fullName, id, email, role} :userModel = jwt_decode(localToken)
-//       dispatch(setLoggedInUser({fullName, id, email, role}))  
+//       dispatch(setLoggedInUser({fullName, id, email, role}))
 //   }
 // },[])
-
 
 //   useEffect(() => {
 //     if (!isLoading) {
@@ -95,16 +92,16 @@
 //             <Route path="/authentication"   element={<AuthenticationTest/>} />
 //             <Route path="/accessDenied" element={<AccessDenied/>} />
 //             <Route path="/payment"  element={<Payment/>}  />
-           
+
 //           </Routes>
 //           </Container>
 //             {/* Admin Routes */}
 //             <Routes>
 //               <Route path="/layout" element={<Layout/>} />
-          
+
 //             <Route path="*" element={<NotFound />} />
 //             </Routes>
-      
+
 //       </ThemeProvider>
 //     </div>
 //   );
@@ -125,13 +122,25 @@ import userModel from "../Interfaces/userModel";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 import { RootState } from "../Storage/Redux/store";
 import { Header } from "../Components/Layout";
-import { Home, ProductDetails, ShoppingCart, Register, Login, AuthenticationTest, AuthenticationAdminTest, AccessDenied, Payment } from "../Pages";
+import {
+  Home,
+  ProductDetails,
+  ShoppingCart,
+  Register,
+  Login,
+  AuthenticationTest,
+  AuthenticationAdminTest,
+  AccessDenied,
+  Payment,
+} from "../Pages";
 import { Layout } from "../Components/AdminLayout";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData: userModel = useSelector((state: RootState) => state.userAuthStore);
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthStore
+  );
   const { data, isLoading } = useGetShoppingCartQuery(userData.id);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -174,10 +183,10 @@ function App() {
       navigate("/");
     } else if (userData?.role === "admin") {
       console.log("Navigating to /layout");
-      navigate("/layout", { replace: true });
+      navigate("/layout/dashboard", { replace: true });
     }
-  }, [userData, navigate]);
-  
+  }, [userData]);
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -185,19 +194,24 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/productDetails/:productId" element={<ProductDetails />} />
+            <Route
+              path="/productDetails/:productId"
+              element={<ProductDetails />}
+            />
             <Route path="/shoppingCart" element={<ShoppingCart />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/authorization" element={<AuthenticationAdminTest />} />
+            <Route
+              path="/authorization"
+              element={<AuthenticationAdminTest />}
+            />
             <Route path="/authentication" element={<AuthenticationTest />} />
             <Route path="/accessDenied" element={<AccessDenied />} />
             <Route path="/payment" element={<Payment />} />
           </Routes>
         </Container>
         <Routes>
-        {/* Admin Routes */}
-        <Route path="/layout/*" element={<Layout />} />
+          <Route path="/layout/*" element={<Layout />} />
         </Routes>
       </ThemeProvider>
     </div>

@@ -18,11 +18,15 @@ import TableRow from "@mui/material/TableRow";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { BsBasketFill } from "react-icons/bs";
-
+//import {  userModel } from "../Interfaces";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../Storage/Redux/store";
+import { emptyUserState, setLoggedInUser } from "../../../Storage/Redux/userAuthSlice";
 
 //import { makeStyles } from '@material-ui/core/styles';
  import BarChart from "../BarChart";
 import PieChart from "../PieChart";
+import { userModel } from "../../../Interfaces";
 //import PieChart from "../../Components/AdminLayout/PieChart";
 
 // const useStyles = makeStyles ({
@@ -66,13 +70,13 @@ import PieChart from "../PieChart";
 
 const Dashboard = () => {
   // const classes = useStyles();
-
+  const userData :userModel = useSelector((state: RootState) => state.userAuthStore);
   return (
     <div>
       <Box>
         {/* <Typography variant="h4">Dashboard</Typography> */}
         <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-          Welcome back, Adediji
+          Welcome back, {typeof userData.fullName === 'string' ? userData.fullName.split(' ')[0] : ''}
         </Typography>
         <Typography variant="body2" color= 'primary'>
               Here's what's happening with your store today.

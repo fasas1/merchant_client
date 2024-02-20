@@ -48,6 +48,8 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
   
+    
+
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
@@ -209,7 +211,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         >
           <Toolbar/>
           <Routes>
-            <Route path="/" element={<Dashboard />}></Route>
+            <Route path="/dashboard" element={<Dashboard />}></Route>
             <Route path="/order" element={<Order/>}></Route>
             <Route path="/product" element={<Product />}></Route>
            
