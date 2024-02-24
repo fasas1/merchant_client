@@ -188,15 +188,6 @@ function App() {
     }
   }, [userData]);
 
-  // console.log(userData);
-  // if (userData && userData.role && userData.role === "customer") {
-  //   return <Navigate to='/' />;
-  // }
-
-  // if (userData && userData.role && userData.role === "admin") {
-  //   return <Navigate to='admin' />;
-  // }
-
   return (
     <div>
       <ThemeProvider theme={theme}>
