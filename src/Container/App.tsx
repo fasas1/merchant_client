@@ -111,7 +111,7 @@
 
 import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -132,6 +132,7 @@ import {
   AuthenticationAdminTest,
   AccessDenied,
   Payment,
+  NotFound,
 } from "../Pages";
 import { Layout } from "../Components/AdminLayout";
 
@@ -183,7 +184,7 @@ function App() {
       navigate("/");
     } else if (userData?.role === "admin") {
       console.log("Navigating to /layout");
-      navigate("/layout/dashboard", { replace: true });
+      navigate("/admin", { replace: true });
     }
   }, [userData]);
 
@@ -193,26 +194,25 @@ function App() {
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
         <Container>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path='/' element={<Home />} />
             <Route
-              path="/productDetails/:productId"
+              path='/productDetails/:productId'
               element={<ProductDetails />}
             />
-            <Route path="/shoppingCart" element={<ShoppingCart />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path='/shoppingCart' element={<ShoppingCart />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
             <Route
-              path="/authorization"
+              path='/authorization'
               element={<AuthenticationAdminTest />}
             />
-            <Route path="/authentication" element={<AuthenticationTest />} />
-            <Route path="/accessDenied" element={<AccessDenied />} />
-            <Route path="/payment" element={<Payment />} />
+            <Route path='/authentication' element={<AuthenticationTest />} />
+            <Route path='/accessDenied' element={<AccessDenied />} />
+            <Route path='/payment' element={<Payment />} />
+            <Route path='/admin/*' element={<Layout />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </Container>
-        <Routes>
-          <Route path="/layout/*" element={<Layout />} />
-        </Routes>
       </ThemeProvider>
     </div>
   );

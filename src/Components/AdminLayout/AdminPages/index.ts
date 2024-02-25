@@ -1,6 +1,5 @@
-import Order from './Order'
-import Product from './Product'
-import Dashboard from './Dashboard'
+import Order from "./Order";
+import Product from "./Product";
+import Dashboard from "./Dashboard";
 
-
-export { Order, Product, Dashboard}
+export { Order, Product, Dashboard };

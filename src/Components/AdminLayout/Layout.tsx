@@ -28,8 +28,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
-import { Order, Product,Dashboard  } from "./AdminPages";
-
+import { Order, Product, Dashboard } from "./AdminPages";
 
 const drawerWidth = 240;
 const theme = createTheme({
@@ -41,25 +40,23 @@ const theme = createTheme({
 });
 
 interface ResponsiveDrawerProps {
-    window?: () => Window;
-  }
+  window?: () => Window;
+}
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const navigate = useNavigate();
-  
-    
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
 
-    const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
-    };
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        <ListItem disablePadding onClick={() => navigate("/layout/dashboard")}>
+        <ListItem disablePadding onClick={() => navigate("/admin")}>
           <ListItemButton>
             <ListItemIcon>
               <Home />
@@ -67,7 +64,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             <ListItemText>Dashboard</ListItemText>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding onClick={() => navigate("/layout/product")}>
+        <ListItem disablePadding onClick={() => navigate("/admin/product")}>
           <ListItemButton>
             <ListItemIcon>
               <MenuIcon />
@@ -75,7 +72,10 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             <ListItemText>Product</ListItemText>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding onClick={() => navigate("/layout/sales-report")}>
+        <ListItem
+          disablePadding
+          onClick={() => navigate("/admin/sales-report")}
+        >
           <ListItemButton>
             <ListItemIcon>
               <MailIcon />
@@ -83,7 +83,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             <ListItemText>Sales Report</ListItemText>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding onClick={() => navigate("/layout/order")}>
+        <ListItem disablePadding onClick={() => navigate("/admin/order")}>
           <ListItemButton>
             <ListItemIcon>
               <InboxIcon />
@@ -91,13 +91,10 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             <ListItemText>Order</ListItemText>
           </ListItemButton>
         </ListItem>
-       
       </List>
       <Divider />
-    
     </div>
   );
-
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -107,8 +104,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
       <CssBaseline />
       <Box sx={{ display: "flex" }}>
         <AppBar
-          position="fixed"
-     
+          position='fixed'
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
@@ -117,37 +113,37 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         >
           <Toolbar>
             <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
+              color='inherit'
+              aria-label='open drawer'
+              edge='start'
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, color:'#000', display: { sm: "none" } }}
+              sx={{ mr: 2, color: "#000", display: { sm: "none" } }}
             >
               <MenuIcon />
             </IconButton>
-            
+
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
+                size='large'
+                aria-label='show 4 new mails'
+                color='inherit'
               >
-                <Badge badgeContent={2} color="error">
+                <Badge badgeContent={2} color='error'>
                   <MailIcon
                     sx={{
                       color: "#000",
-                       display: { sm: "none" }
+                      display: { sm: "none" },
                     }}
                   />
                 </Badge>
               </IconButton>
               <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
+                size='large'
+                aria-label='show 17 new notifications'
+                color='inherit'
               >
-                <Badge badgeContent={6} color="error">
+                <Badge badgeContent={6} color='error'>
                   <NotificationsIcon
                     sx={{
                       color: "#000",
@@ -155,23 +151,21 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
                   />
                 </Badge>
               </IconButton>
-              <IconButton
-         
-              >
+              <IconButton>
                 <AccountCircle />
               </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
         <Box
-          component="nav"
+          component='nav'
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-          aria-label="mailbox folders"
+          aria-label='mailbox folders'
         >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Drawer
             container={container}
-            variant="temporary"
+            variant='temporary'
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
@@ -188,7 +182,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             {drawer}
           </Drawer>
           <Drawer
-            variant="permanent"
+            variant='permanent'
             sx={{
               display: { xs: "none", sm: "block" },
               "& .MuiDrawer-paper": {
@@ -202,25 +196,29 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
           </Drawer>
         </Box>
         <Box
-          component="main"
+          component='main'
           sx={{
             flexGrow: 1,
             p: 3,
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
-          <Toolbar/>
+          <Toolbar />
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />}></Route>
-            <Route path="/order" element={<Order/>}></Route>
-            <Route path="/product" element={<Product />}></Route>
-           
+            <Route index element={<Dashboard />}></Route>
+            <Route path='/sales-report' element={<>Sales Report</>}></Route>
+            <Route path='/order' element={<Order />}></Route>
+            <Route path='/product' element={<Product />}></Route>
+            <Route
+              path='*'
+              element={<h2>The requested page does not exist</h2>}
+            />
           </Routes>
         </Box>
       </Box>
     </ThemeProvider>
   );
-}
+};
 
 ResponsiveDrawer.propTypes = {
   /**
