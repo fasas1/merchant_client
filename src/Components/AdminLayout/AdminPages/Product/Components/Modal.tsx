@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Select,
   MenuItem,
@@ -22,30 +23,37 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  zIndex: 20,
 };
+
+const Item = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  padding: theme.spacing(1),
+  textAlign: "center",
+}));
+
+type productForm = { name: string; price: number; category: Array<string> };
 type Prop = {
-  product: string;
+  productCategory: string;
   openModal: boolean;
   handleClose: () => void;
   isEditing: boolean;
   handleChange: (e: SelectChangeEvent) => void;
-  handleProductSubmit: () => void;
+  handleProductSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  productForm: productForm;
+  setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
 };
 
 const AddProductModal = ({
-  product,
+  productCategory,
   openModal,
   handleClose,
   handleChange,
   isEditing,
   handleProductSubmit,
+  productForm,
+  setProductForm,
 }: Prop) => {
-  const Item = styled("div")(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    padding: theme.spacing(1),
-    textAlign: "center",
-  }));
-
   return (
     <Modal open={openModal} onClose={handleClose}>
       <Box sx={style}>
@@ -53,14 +61,24 @@ const AddProductModal = ({
           {isEditing ? "Edit Product" : "Add Product"}
         </Typography>
 
-        <Box component='form' sx={{ mt: "2rem" }} noValidate autoComplete='off'>
+        <Box
+          component='form'
+          sx={{ mt: "2rem" }}
+          noValidate
+          autoComplete='off'
+          onSubmit={handleProductSubmit}
+        >
           <Grid container spacing={2}>
             <Grid xs={12}>
               <Item>
                 <TextField
-                  id='outlined-basic'
+                  id='Name'
                   label='Name'
                   variant='outlined'
+                  value={productForm.name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setProductForm({ ...productForm, name: e.target.value })
+                  }
                   fullWidth
                 />
               </Item>
@@ -68,9 +86,14 @@ const AddProductModal = ({
             <Grid xs={6}>
               <Item>
                 <TextField
-                  id='outlined-basic'
-                  label='Price'
-                  variant='outlined'
+                  value={productForm.price}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setProductForm({
+                      ...productForm,
+                      price: Number(e.target.value),
+                    })
+                  }
+                  inputProps={{ type: "number" }}
                   fullWidth
                 />
               </Item>
@@ -78,10 +101,10 @@ const AddProductModal = ({
             <Grid xs={6}>
               <Item>
                 <Select
-                  defaultValue={product}
+                  defaultValue={productCategory}
                   labelId='search-products'
                   id='search-products'
-                  value={product}
+                  value={productCategory}
                   label='Age'
                   onChange={handleChange}
                   displayEmpty
@@ -104,7 +127,7 @@ const AddProductModal = ({
             </Grid>
             <Grid xs={12}>
               <Item>
-                <Button variant='contained' size='large'>
+                <Button type='submit' variant='contained' size='large'>
                   SUBMIT
                 </Button>
               </Item>
@@ -112,6 +135,7 @@ const AddProductModal = ({
           </Grid>
         </Box>
       </Box>
+      {/* </Dialog> */}
     </Modal>
   );
 };
