@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import {
   Stack,
   Select,
@@ -14,9 +14,15 @@ import AddProductModal from "./Components/Modal";
 import ProductResult from "./Components/ProductResult";
 
 const Product = () => {
-  const [product, setProduct] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [productCategory, setProductCategory] = useState("");
+  // const [productSearch, setProductSearch] = useState("");
+  const [productForm, setProductForm] = useState<{
+    name: string;
+    price: number;
+    category: string[];
+  }>({ name: "", price: 0, category: [] });
 
   const handleOpen = () => {
     setIsEditing(false);
@@ -24,7 +30,7 @@ const Product = () => {
   };
   const handleClose = () => setOpenModal(false);
   const handleChange = (e: SelectChangeEvent) => {
-    setProduct(e.target.value);
+    setProductCategory(e.target.value);
   };
 
   const handleEditProduct = () => {
@@ -39,22 +45,26 @@ const Product = () => {
     // ToDO: Make a Delete Request
   };
 
-  const handleProductSubmit = () => {
+  const handleProductSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // TODO: Make post request to add product,
     // or Edit depending on isEditing
 
     setIsEditing(false);
   };
+
   return (
     <section>
       <Typography variant='h4' component='h2' sx={{ my: "2rem" }}>
         Product
       </Typography>
       <AddProductModal
+        productForm={productForm}
+        setProductForm={setProductForm}
         handleChange={handleChange}
         handleClose={handleClose}
         openModal={openModal}
-        product={product}
+        productCategory={productCategory}
         isEditing={isEditing}
         handleProductSubmit={handleProductSubmit}
       />
@@ -68,10 +78,10 @@ const Product = () => {
         <div style={{ flexBasis: "50%", width: "100%" }}>
           <FormControl fullWidth>
             <Select
-              defaultValue={product}
+              defaultValue={productCategory}
               labelId='search-products'
               id='search-products'
-              value={product}
+              value={productCategory}
               label='Age'
               onChange={handleChange}
               displayEmpty
