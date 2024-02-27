@@ -32,7 +32,12 @@ const Item = styled("div")(({ theme }) => ({
   textAlign: "center",
 }));
 
-type productForm = { name: string; price: number; category: Array<string> };
+type productForm = {
+  id: number;
+  name: string;
+  price: number;
+  category: Array<string>;
+};
 type Prop = {
   productCategory: string;
   openModal: boolean;
