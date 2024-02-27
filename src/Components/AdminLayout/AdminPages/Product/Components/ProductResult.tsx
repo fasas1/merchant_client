@@ -17,11 +17,13 @@ type productForm = {
   id: number;
   name: string;
   price: number;
-  category: Array<string>;
+  category: string;
+  description: string;
+  image: string;
 };
 type Prop = {
   handleEditProduct: () => void;
-  handleDeleteProduct: () => void;
+  handleDeleteProduct: (id: number) => void;
   productForm: productForm;
   setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
 };
@@ -117,7 +119,7 @@ export default ProductResult;
 type ProductItemProp = {
   product: productModel;
   handleEditProduct: () => void;
-  handleDeleteProduct: () => void;
+  handleDeleteProduct: (id: number) => void;
   productForm: productForm;
   setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
 };
@@ -231,10 +233,7 @@ const ProductItem = ({
                       id,
                       name,
                       price,
-                      category: [
-                        category,
-                        ...productForm.category.filter((c) => c !== category),
-                      ],
+                      category: "test",
                     });
                     handleEditProduct();
                   }}
@@ -244,7 +243,9 @@ const ProductItem = ({
                 <Button
                   variant={isMatch ? "contained" : "text"}
                   color={isMatch ? "error" : "inherit"}
-                  onClick={handleDeleteProduct}
+                  onClick={() => {
+                    handleDeleteProduct(id);
+                  }}
                 >
                   {isMatch ? <Typography>Delete</Typography> : <DeleteIcon />}
                 </Button>

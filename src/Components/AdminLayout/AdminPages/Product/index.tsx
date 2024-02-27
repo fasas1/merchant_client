@@ -13,10 +13,17 @@ import { AddIcon } from "../../../../Icon";
 import AddProductModal from "./Components/Modal";
 import ProductResult from "./Components/ProductResult";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetProductsQuery } from "../../../../Apis/productApi";
+import {
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useEditProductMutation,
+  useGetProductsQuery,
+} from "../../../../Apis/productApi";
 import { setProduct } from "../../../../Storage/Redux/productSlice";
 import { RootState } from "../../../../Storage/Redux/store";
 import CircularProgress from "@mui/material/CircularProgress";
+import { toast } from "react-toastify";
+import { apiResponse } from "../../../../Interfaces";
 
 const Product = () => {
   const { data, error, isLoading } = useGetProductsQuery(null);
@@ -26,12 +33,25 @@ const Product = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [productCategory, setProductCategory] = useState("");
   // const [productSearch, setProductSearch] = useState("");
+  const [addProduct] = useAddProductMutation();
+  const [editProduct] = useEditProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const [productForm, setProductForm] = useState<{
     id: number;
     name: string;
     price: number;
-    category: string[];
-  }>({ id: 0, name: "", price: 0, category: [] });
+    category: string;
+    description: string;
+    image: string;
+  }>({
+    id: 0,
+    name: "",
+    price: 0,
+    category: "test",
+    description: "",
+    image:
+      "https://res.cloudinary.com/dgsjzsrw4/image/upload/v1691699385/watch-prod-3_mvvw3x.webp",
+  });
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -53,22 +73,60 @@ const Product = () => {
 
   const handleEditProduct = () => {
     setIsEditing(true);
-    // TODO
-    // Create useState for Product modal
-    // Propagate current product object to the modal
     setOpenModal(true);
   };
 
-  const handleDeleteProduct = () => {
-    // ToDO: Make a Delete Request
+  const handleDeleteProduct = async (id: number) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      const response: apiResponse = await deleteProduct(id);
+      if (response.data && response.data.isSuccess) {
+        toast.info("Product has been deleted");
+      } else if (response.error) {
+        toast.error(
+          response.error.data?.errorMessages[0] || "Something went wrong"
+        );
+      }
+    }
   };
 
-  const handleProductSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProductSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const { id, name, price, category, image } = productForm;
     e.preventDefault();
-    // TODO: Make post request to add product,
-    // or Edit depending on isEditing
+    if (!name || !category) {
+      toast.error("Please provide a product name and category");
+      return;
+    }
+    let response: apiResponse;
+
+    if (isEditing) {
+      response = await editProduct({
+        id,
+        name,
+        price,
+        category,
+        image,
+      });
+    } else {
+      response = await addProduct({
+        name,
+        price,
+        category,
+        image,
+      });
+    }
+
+    if (response.data && response.data.isSuccess) {
+      toast.success(
+        isEditing ? "Product has been ediited" : "Added new product"
+      );
+    } else if (response.error) {
+      toast.error(
+        response.error.data?.errorMessages[0] || "Something went wrong"
+      );
+    }
 
     setIsEditing(false);
+    setOpenModal(false);
   };
 
   if (isLoading) {

@@ -36,7 +36,9 @@ type productForm = {
   id: number;
   name: string;
   price: number;
-  category: Array<string>;
+  category: string;
+  description: string;
+  image: string;
 };
 type Prop = {
   productCategory: string;
@@ -140,7 +142,6 @@ const AddProductModal = ({
           </Grid>
         </Box>
       </Box>
-      {/* </Dialog> */}
     </Modal>
   );
 };
