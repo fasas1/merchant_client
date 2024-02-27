@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Stack,
   Select,
@@ -12,23 +12,41 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { AddIcon } from "../../../../Icon";
 import AddProductModal from "./Components/Modal";
 import ProductResult from "./Components/ProductResult";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetProductsQuery } from "../../../../Apis/productApi";
+import { setProduct } from "../../../../Storage/Redux/productSlice";
+import { RootState } from "../../../../Storage/Redux/store";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Product = () => {
+  const { data, error, isLoading } = useGetProductsQuery(null);
+  const { product } = useSelector((state: RootState) => state.productReducer);
+  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [productCategory, setProductCategory] = useState("");
   // const [productSearch, setProductSearch] = useState("");
   const [productForm, setProductForm] = useState<{
+    id: number;
     name: string;
     price: number;
     category: string[];
-  }>({ name: "", price: 0, category: [] });
+  }>({ id: 0, name: "", price: 0, category: [] });
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      dispatch(setProduct(data.result));
+    }
+  }, [isLoading, data, dispatch]);
 
   const handleOpen = () => {
     setIsEditing(false);
     setOpenModal(true);
   };
-  const handleClose = () => setOpenModal(false);
+  const handleClose = () => {
+    setOpenModal(false);
+    setIsEditing(false);
+  };
   const handleChange = (e: SelectChangeEvent) => {
     setProductCategory(e.target.value);
   };
@@ -52,6 +70,24 @@ const Product = () => {
 
     setIsEditing(false);
   };
+
+  if (isLoading) {
+    return (
+      <Stack
+        sx={{ color: "grey.500", height: "100dvh", width: "100%" }}
+        spacing={2}
+        justifyContent='center'
+        alignItems='center'
+        direction='row'
+      >
+        <CircularProgress size='10%' color='secondary' />
+      </Stack>
+    );
+  }
+
+  if (error) {
+    return <h2>There was an error, please refresh page</h2>;
+  }
 
   return (
     <section>
@@ -126,6 +162,8 @@ const Product = () => {
       <ProductResult
         handleEditProduct={handleEditProduct}
         handleDeleteProduct={handleDeleteProduct}
+        productForm={productForm}
+        setProductForm={setProductForm}
       />
     </section>
   );
