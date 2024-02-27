@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { productModel } from "../../Interfaces";
 
-const initialState = {
+const initialState: { product: productModel[] } = {
   product: [],
 };
 
