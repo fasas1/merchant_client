@@ -1,3 +1,4 @@
+// Material UI
 import {
   Stack,
   Button,
@@ -8,30 +9,27 @@ import {
 } from "@mui/material";
 import Box from "@mui/system/Box";
 import styled from "@mui/system/styled";
+// Components
 import { EditIcon, DeleteIcon } from "../../../../../Icon";
+// Redux
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../Storage/Redux/store";
+// Interface
 import { productModel } from "../../../../../Interfaces";
 
-type productForm = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-};
 type Prop = {
   handleEditProduct: () => void;
   handleDeleteProduct: (id: number) => void;
-  productForm: productForm;
-  setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
+  productForm: productModel;
+  setProductForm: React.Dispatch<React.SetStateAction<productModel>>;
+  productSearch: string;
 };
 function ProductResult({
   handleEditProduct,
   handleDeleteProduct,
   productForm,
   setProductForm,
+  productSearch,
 }: Prop) {
   const { product } = useSelector((state: RootState) => state.productReducer);
   const Item = styled("div")(({ theme }) => ({
@@ -53,6 +51,15 @@ function ProductResult({
       </Typography>
     );
   }
+
+  let filteredProducts = product.filter((prod) => {
+    if (!productSearch) {
+      return prod;
+    }
+
+    return prod.category.toLowerCase() === productSearch.toLowerCase();
+  });
+
   return (
     <div>
       <header style={{ margin: "2rem", width: "100%" }}>
@@ -94,18 +101,24 @@ function ProductResult({
       </header>
 
       <main>
-        {product.map((product) => {
-          return (
-            <ProductItem
-              product={product}
-              handleEditProduct={handleEditProduct}
-              handleDeleteProduct={handleDeleteProduct}
-              key={product.id}
-              productForm={productForm}
-              setProductForm={setProductForm}
-            />
-          );
-        })}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => {
+            return (
+              <ProductItem
+                product={product}
+                handleEditProduct={handleEditProduct}
+                handleDeleteProduct={handleDeleteProduct}
+                key={product.id}
+                productForm={productForm}
+                setProductForm={setProductForm}
+              />
+            );
+          })
+        ) : (
+          <Typography align='center' variant='h5' component='h3'>
+            No Product was found : )
+          </Typography>
+        )}
       </main>
     </div>
   );
@@ -116,8 +129,8 @@ type ProductItemProp = {
   product: productModel;
   handleEditProduct: () => void;
   handleDeleteProduct: (id: number) => void;
-  productForm: productForm;
-  setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
+  productForm: productModel;
+  setProductForm: React.Dispatch<React.SetStateAction<productModel>>;
 };
 
 const ProductItem = ({

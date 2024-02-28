@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+// Material UI
 import {
   Stack,
   Select,
@@ -9,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import CircularProgress from "@mui/material/CircularProgress";
+// Components
 import { AddIcon } from "../../../../Icon";
 import AddProductModal from "./Components/Modal";
 import ProductResult from "./Components/ProductResult";
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   useAddProductMutation,
@@ -21,9 +25,11 @@ import {
 } from "../../../../Apis/productApi";
 import { setProduct } from "../../../../Storage/Redux/productSlice";
 import { RootState } from "../../../../Storage/Redux/store";
-import CircularProgress from "@mui/material/CircularProgress";
+// Toastify
 import { toast } from "react-toastify";
-import { apiResponse } from "../../../../Interfaces";
+// Interface
+import { apiResponse, productModel } from "../../../../Interfaces";
+import categories from "./productCategory";
 
 const Product = () => {
   const { data, error, isLoading } = useGetProductsQuery(null);
@@ -32,23 +38,17 @@ const Product = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [productCategory, setProductCategory] = useState("");
-  // const [productSearch, setProductSearch] = useState("");
+  const [productSearch, setProductSearch] = useState("");
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
-  const [productForm, setProductForm] = useState<{
-    id: number;
-    name: string;
-    price: number;
-    category: string;
-    description: string;
-    image: string;
-  }>({
+  const [productForm, setProductForm] = useState<productModel>({
     id: 0,
     name: "",
     price: 0,
-    category: "test",
+    category: "",
     description: "",
+    // Remove placeholder image
     image:
       "https://res.cloudinary.com/dgsjzsrw4/image/upload/v1691699385/watch-prod-3_mvvw3x.webp",
   });
@@ -69,6 +69,7 @@ const Product = () => {
   };
   const handleChange = (e: SelectChangeEvent) => {
     setProductCategory(e.target.value);
+    setProductForm({ ...productForm, category: e.target.value });
   };
 
   const handleEditProduct = () => {
@@ -77,6 +78,10 @@ const Product = () => {
   };
 
   const handleDeleteProduct = async (id: number) => {
+    if (!id) {
+      toast.error("Please provide a valid Product id");
+      return;
+    }
     if (window.confirm("Are you sure you want to delete this product?")) {
       const response: apiResponse = await deleteProduct(id);
       if (response.data && response.data.isSuccess) {
@@ -99,6 +104,10 @@ const Product = () => {
     let response: apiResponse;
 
     if (isEditing) {
+      if (!id) {
+        toast.error("Please provide a valid Product id");
+        return;
+      }
       response = await editProduct({
         id,
         name,
@@ -120,9 +129,7 @@ const Product = () => {
         isEditing ? "Product has been ediited" : "Added new product"
       );
     } else if (response.error) {
-      toast.error(
-        response.error.data?.errorMessages[0] || "Something went wrong"
-      );
+      toast.error("Something went wrong");
     }
 
     setIsEditing(false);
@@ -172,27 +179,39 @@ const Product = () => {
         <div style={{ flexBasis: "50%", width: "100%" }}>
           <FormControl fullWidth>
             <Select
-              defaultValue={productCategory}
+              defaultValue={productSearch}
               labelId='search-products'
               id='search-products'
-              value={productCategory}
-              label='Age'
-              onChange={handleChange}
+              value={productSearch}
+              label='search-product'
+              onChange={(e: SelectChangeEvent) =>
+                setProductSearch(e.target.value)
+              }
               displayEmpty
               input={<OutlinedInput />}
               renderValue={(selected) => {
                 if (!selected) {
-                  return <em>Search Products</em>;
+                  return <em>Search Products by Category</em>;
                 }
 
                 return selected;
               }}
               fullWidth
             >
-              <MenuItem disabled value=''>
-                <em>Search Products</em>
-              </MenuItem>
-              <MenuItem value={"Product 1"}>Product 1</MenuItem>
+              {productSearch && (
+                <MenuItem value=''>
+                  <em style={{ color: "red" }}>Clear Search</em>
+                </MenuItem>
+              )}
+              {categories.map((category, index) => (
+                <MenuItem
+                  key={index}
+                  value={category}
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  {category}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
@@ -222,6 +241,7 @@ const Product = () => {
         handleDeleteProduct={handleDeleteProduct}
         productForm={productForm}
         setProductForm={setProductForm}
+        productSearch={productSearch}
       />
     </section>
   );

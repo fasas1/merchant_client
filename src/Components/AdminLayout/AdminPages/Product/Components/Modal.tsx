@@ -1,4 +1,5 @@
 import React from "react";
+// Material UI
 import {
   Select,
   MenuItem,
@@ -12,17 +13,19 @@ import {
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Box from "@mui/system/Box";
 import styled from "@mui/system/styled";
+// Interface
+import { productModel } from "../../../../../Interfaces";
+import categories from "../productCategory";
+import { CancelIcon } from "../../../../../Icon";
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
   zIndex: 20,
 };
 
@@ -32,14 +35,6 @@ const Item = styled("div")(({ theme }) => ({
   textAlign: "center",
 }));
 
-type productForm = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-};
 type Prop = {
   productCategory: string;
   openModal: boolean;
@@ -47,8 +42,8 @@ type Prop = {
   isEditing: boolean;
   handleChange: (e: SelectChangeEvent) => void;
   handleProductSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  productForm: productForm;
-  setProductForm: React.Dispatch<React.SetStateAction<productForm>>;
+  productForm: productModel;
+  setProductForm: React.Dispatch<React.SetStateAction<productModel>>;
 };
 
 const AddProductModal = ({
@@ -63,7 +58,14 @@ const AddProductModal = ({
 }: Prop) => {
   return (
     <Modal open={openModal} onClose={handleClose}>
-      <Box sx={style}>
+      <Box
+        sx={{ ...style, width: { xs: "100%", sm: "80%" }, p: { xs: 1, sm: 4 } }}
+      >
+        <Box component='div' sx={{ display: "flex", justifyContent: "end" }}>
+          <Button type='button' color='error' onClick={handleClose}>
+            <CancelIcon />
+          </Button>
+        </Box>
         <Typography variant='h4' component='h2' sx={{ textAlign: "center" }}>
           {isEditing ? "Edit Product" : "Add Product"}
         </Typography>
@@ -93,6 +95,8 @@ const AddProductModal = ({
             <Grid item xs={6}>
               <Item>
                 <TextField
+                  id='Price'
+                  label='Price(₦)'
                   value={productForm.price}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setProductForm({
@@ -128,8 +132,34 @@ const AddProductModal = ({
                   <MenuItem disabled value=''>
                     <em>Categories</em>
                   </MenuItem>
-                  <MenuItem value={"Product 1"}>Product 1</MenuItem>
+                  {categories.map((category, index) => (
+                    <MenuItem
+                      key={index}
+                      value={category}
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      {category}
+                    </MenuItem>
+                  ))}
                 </Select>
+              </Item>
+            </Grid>
+            <Grid item xs={12}>
+              <Item>
+                <TextField
+                  id='Description'
+                  label='Description'
+                  multiline
+                  rows={4}
+                  value={productForm.description}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setProductForm({
+                      ...productForm,
+                      description: e.target.value,
+                    })
+                  }
+                  fullWidth
+                />
               </Item>
             </Grid>
             <Grid item xs={12}>
