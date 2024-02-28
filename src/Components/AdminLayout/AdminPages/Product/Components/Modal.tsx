@@ -75,8 +75,8 @@ const AddProductModal = ({
           autoComplete='off'
           onSubmit={handleProductSubmit}
         >
-          <Grid container spacing={2}>
-            <Grid xs={12}>
+          <Grid container item={true}>
+            <Grid item xs={12}>
               <Item>
                 <TextField
                   id='Name'
@@ -90,7 +90,7 @@ const AddProductModal = ({
                 />
               </Item>
             </Grid>
-            <Grid xs={6}>
+            <Grid item xs={6}>
               <Item>
                 <TextField
                   value={productForm.price}
@@ -105,7 +105,7 @@ const AddProductModal = ({
                 />
               </Item>
             </Grid>
-            <Grid xs={6}>
+            <Grid item xs={6}>
               <Item>
                 <Select
                   defaultValue={productCategory}
@@ -132,7 +132,7 @@ const AddProductModal = ({
                 </Select>
               </Item>
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <Item>
                 <Button type='submit' variant='contained' size='large'>
                   SUBMIT

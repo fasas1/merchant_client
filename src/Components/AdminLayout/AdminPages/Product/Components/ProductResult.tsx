@@ -56,40 +56,36 @@ function ProductResult({
   return (
     <div>
       <header style={{ margin: "2rem", width: "100%" }}>
-        <Grid
-          container
-          spacing={2}
-          sx={{ display: { xs: "none", sm: "flex" } }}
-        >
-          <Grid sm={2}>
+        <Grid container sx={{ display: { xs: "none", sm: "flex" } }}>
+          <Grid item sm={2}>
             <Item>
               <Typography overflow='hidden' align='left'>
                 Name
               </Typography>
             </Item>
           </Grid>
-          <Grid sm={2}>
+          <Grid item sm={2}>
             <Item>
               <Typography overflow='hidden' align='left'>
                 Price
               </Typography>
             </Item>
           </Grid>
-          <Grid sm={2}>
+          <Grid item sm={2}>
             <Item>
               <Typography overflow='hidden' align='left'>
                 Category
               </Typography>
             </Item>
           </Grid>
-          <Grid sm={3}>
+          <Grid item sm={3}>
             <Item>
               <Typography overflow='hidden' align='left'>
                 Date
               </Typography>
             </Item>
           </Grid>
-          <Grid sm={3}>
+          <Grid item sm={3}>
             <Item>
               <Typography overflow='hidden'>Action</Typography>
             </Item>
@@ -151,7 +147,7 @@ const ProductItem = ({
         }}
       >
         <Grid container spacing={2}>
-          <Grid xs={8} sm={2}>
+          <Grid item xs={8} sm={2}>
             <Item>
               <Stack
                 direction='column'
@@ -167,7 +163,7 @@ const ProductItem = ({
               </Stack>
             </Item>
           </Grid>
-          <Grid xs={4} sm={2}>
+          <Grid item xs={4} sm={2}>
             <Item>
               <Stack
                 direction='column'
@@ -183,7 +179,7 @@ const ProductItem = ({
               </Stack>
             </Item>
           </Grid>
-          <Grid xs={6} sm={2}>
+          <Grid item xs={6} sm={2}>
             <Item>
               <Stack
                 direction='column'
@@ -199,7 +195,7 @@ const ProductItem = ({
               </Stack>
             </Item>
           </Grid>
-          <Grid xs={6} sm={3}>
+          <Grid item xs={6} sm={3}>
             <Item>
               <Stack
                 direction='column'
@@ -216,7 +212,7 @@ const ProductItem = ({
             </Item>
           </Grid>
 
-          <Grid xs={12} sm={3}>
+          <Grid item xs={12} sm={3}>
             <Item>
               <Box
                 sx={{
