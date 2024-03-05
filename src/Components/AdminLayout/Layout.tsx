@@ -29,7 +29,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import { Product, Dashboard } from "./AdminPages";
 import Order from "./AdminPages/Order";
-import SingleOrder from "./AdminPages/Order/SingleOrder";
+import SingleOrder from "./AdminPages/Order/Components/SingleOrder";
 
 const drawerWidth = 240;
 const theme = createTheme({
