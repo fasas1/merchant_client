@@ -156,7 +156,7 @@ const ProductItem = ({
       <Box
         sx={{
           flexGrow: 1,
-          margin: "2rem 0",
+          borderTop: "1px solid gray",
         }}
       >
         <Grid container spacing={2}>
