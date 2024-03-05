@@ -151,13 +151,17 @@ const Product = () => {
   }
 
   if (error) {
-    return <h2>There was an error, please refresh page</h2>;
+    return (
+      <Typography variant='h5' align='center' component='p' sx={{ m: "4rem" }}>
+        There was an error, please refresh page
+      </Typography>
+    );
   }
 
   return (
     <section>
       <Typography variant='h4' component='h2' sx={{ my: "2rem" }}>
-        Product
+        Product List
       </Typography>
       <AddProductModal
         productForm={productForm}
