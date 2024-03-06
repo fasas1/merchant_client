@@ -160,9 +160,7 @@ const Product = () => {
 
   return (
     <section>
-      <Typography variant='h4' component='h2' sx={{ my: "2rem" }}>
-        Product List
-      </Typography>
+     
       <AddProductModal
         productForm={productForm}
         setProductForm={setProductForm}
