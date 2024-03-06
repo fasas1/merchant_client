@@ -169,7 +169,7 @@ function OrderItem({ order }: OrderItemProp) {
 
   if (order.orderDetails.length > 0) {
     order.orderDetails.forEach((detail) => {
-      totalAmount += detail.price;
+      totalAmount += detail.price * detail.quantity;
     });
   }
   return (
