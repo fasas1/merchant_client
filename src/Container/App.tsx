@@ -192,7 +192,7 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-        <Container>
+       
           <Routes>
             <Route path='/' element={<Home />} />
             <Route
@@ -208,11 +208,11 @@ function App() {
             />
             <Route path='/authentication' element={<AuthenticationTest />} />
             <Route path='/accessDenied' element={<AccessDenied />} />
-            <Route path='/payment' element={<Payment />} />
+            <Route path='/payment' element={<Payment />} />z
             <Route path='/admin/*' element={<Layout />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
-        </Container>
+  
       </ThemeProvider>
     </div>
   );
