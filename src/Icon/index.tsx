@@ -1,11 +1,15 @@
-export const AddIcon = () => {
+type Prop = {
+  h?: number;
+  w?: number;
+};
+export const AddIcon = ({ h, w }: Prop) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 20 20'
       fill='currentColor'
-      width={20}
-      height={20}
+      width={h ? h : 20}
+      height={w ? w : 20}
     >
       <path
         fillRule='evenodd'
@@ -16,14 +20,14 @@ export const AddIcon = () => {
   );
 };
 
-export const DeleteIcon = () => {
+export const DeleteIcon = ({ h, w }: Prop) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
       fill='red'
-      width={20}
-      height={20}
+      width={h ? h : 20}
+      height={w ? w : 20}
     >
       <path
         fillRule='evenodd'
@@ -34,14 +38,14 @@ export const DeleteIcon = () => {
   );
 };
 
-export const EditIcon = () => {
+export const EditIcon = ({ h, w }: Prop) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
       fill='blue'
-      width={20}
-      height={20}
+      width={h ? h : 20}
+      height={w ? w : 20}
     >
       <path d='M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z' />
     </svg>
@@ -64,3 +68,21 @@ export const CancelIcon = () => {
     </svg>
   );
 };
+
+export function BackIcon({ h, w }: Prop) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='currentColor'
+      width={h ? h : 20}
+      height={w ? w : 20}
+    >
+      <path
+        fillRule='evenodd'
+        d='M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z'
+        clipRule='evenodd'
+      />
+    </svg>
+  );
+}
