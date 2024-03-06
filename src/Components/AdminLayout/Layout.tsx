@@ -16,7 +16,6 @@ import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { Home } from "@mui/icons-material";
 
 // import Product from "../Pages/Product";
@@ -28,7 +27,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
-import { Order, Product, Dashboard } from "./AdminPages";
+import { Product, Dashboard } from "./AdminPages";
+import Order from "./AdminPages/Order";
+import SingleOrder from "./AdminPages/Order/Components/SingleOrder";
 
 const drawerWidth = 240;
 const theme = createTheme({
@@ -207,7 +208,8 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
           <Routes>
             <Route index element={<Dashboard />}></Route>
             <Route path='/sales-report' element={<>Sales Report</>}></Route>
-            <Route path='/order' element={<Order />}></Route>
+            <Route path='/order' element={<Order />} />
+            <Route path='order/:id' element={<SingleOrder />} />
             <Route path='/product' element={<Product />}></Route>
             <Route
               path='*'
