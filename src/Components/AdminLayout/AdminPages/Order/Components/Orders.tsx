@@ -209,10 +209,6 @@ function OrderItem({ order }: OrderItemProp) {
           >
             OrderID:
           </Typography>
-          {/* <Link
-            to={"/admin/order/" + order.orderHeaderId}
-            style={{ textDecoration: isMatch ? "none" : "underline" }}
-          > */}
           <Typography
             overflow='hidden'
             align='left'
@@ -222,7 +218,6 @@ function OrderItem({ order }: OrderItemProp) {
           >
             # {order.orderHeaderId}
           </Typography>
-          {/* </Link> */}
         </Stack>
       </Grid>
       <Grid item xs={12} md={2}>
@@ -308,10 +303,6 @@ function OrderItem({ order }: OrderItemProp) {
           >
             Total Price (₦):
           </Typography>
-          {/* <Link
-            to={"/admin/order/" + order.orderHeaderId}
-            style={{ textDecoration: isMatch ? "none" : "underline" }}
-          > */}
           <Typography
             fontWeight='bold'
             overflow='hidden'
@@ -322,7 +313,6 @@ function OrderItem({ order }: OrderItemProp) {
           >
             {totalAmount}
           </Typography>
-          {/* </Link> */}
         </Stack>
       </Grid>
       <Grid
