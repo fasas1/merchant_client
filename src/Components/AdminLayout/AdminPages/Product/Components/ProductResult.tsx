@@ -62,39 +62,34 @@ function ProductResult({
 
   return (
     <div>
-      <header style={{ margin: "2rem", width: "100%" }}>
+      <header style={{ margin: "2rem 0", width: "100%" }}>
         <Grid container sx={{ display: { xs: "none", sm: "flex" } }}>
-          <Grid item sm={2}>
+          <Grid item sm={3}>
             <Item>
-              <Typography overflow='hidden' align='left'>
+              <Typography overflow='hidden' align='center' fontWeight={700}>
                 Name
               </Typography>
             </Item>
           </Grid>
-          <Grid item sm={2}>
+          <Grid item sm={3}>
             <Item>
-              <Typography overflow='hidden' align='left'>
+              <Typography overflow='hidden' align='center' fontWeight={700}>
                 Price
               </Typography>
             </Item>
           </Grid>
-          <Grid item sm={2}>
+          <Grid item sm={3}>
             <Item>
-              <Typography overflow='hidden' align='left'>
+              <Typography overflow='hidden' align='center' fontWeight={700}>
                 Category
               </Typography>
             </Item>
           </Grid>
           <Grid item sm={3}>
             <Item>
-              <Typography overflow='hidden' align='left'>
-                Date
+              <Typography overflow='hidden' align='center' fontWeight={700}>
+                Action
               </Typography>
-            </Item>
-          </Grid>
-          <Grid item sm={3}>
-            <Item>
-              <Typography overflow='hidden'>Action</Typography>
             </Item>
           </Grid>
         </Grid>
@@ -157,10 +152,11 @@ const ProductItem = ({
         sx={{
           flexGrow: 1,
           borderTop: "1px solid gray",
+          mb: isMatch ? "1rem" : 0,
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={8} sm={2}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} sm={3}>
             <Item>
               <Stack
                 direction='column'
@@ -169,42 +165,15 @@ const ProductItem = ({
                 spacing={1}
                 useFlexGap
               >
-                <Typography sx={{ display: { xs: "flex", sm: "none" } }}>
+                <Typography
+                  sx={{
+                    display: { xs: "flex", sm: "none" },
+                    fontWeight: "800",
+                  }}
+                >
                   Name:
                 </Typography>
                 <Typography overflow='clip'>{name}</Typography>
-              </Stack>
-            </Item>
-          </Grid>
-          <Grid item xs={4} sm={2}>
-            <Item>
-              <Stack
-                direction='column'
-                alignItems='center'
-                justifyContent='space-between'
-                spacing={1}
-                useFlexGap
-              >
-                <Typography sx={{ display: { xs: "flex", sm: "none" } }}>
-                  Price:
-                </Typography>
-                <Typography overflow='clip'>&#8358;{price}</Typography>
-              </Stack>
-            </Item>
-          </Grid>
-          <Grid item xs={6} sm={2}>
-            <Item>
-              <Stack
-                direction='column'
-                alignItems='center'
-                justifyContent='space-between'
-                spacing={1}
-                useFlexGap
-              >
-                <Typography sx={{ display: { xs: "flex", sm: "none" } }}>
-                  Category:
-                </Typography>
-                <Typography overflow='clip'>{category}</Typography>
               </Stack>
             </Item>
           </Grid>
@@ -217,14 +186,39 @@ const ProductItem = ({
                 spacing={1}
                 useFlexGap
               >
-                <Typography sx={{ display: { xs: "flex", sm: "none" } }}>
-                  Date:
+                <Typography
+                  sx={{
+                    display: { xs: "flex", sm: "none" },
+                    fontWeight: "800",
+                  }}
+                >
+                  Price:
                 </Typography>
-                <Typography overflow='clip'>TBD</Typography>
+                <Typography overflow='clip'>&#8358;{price}</Typography>
               </Stack>
             </Item>
           </Grid>
-
+          <Grid item xs={6} sm={3}>
+            <Item>
+              <Stack
+                direction='column'
+                alignItems='center'
+                justifyContent='space-between'
+                spacing={1}
+                useFlexGap
+              >
+                <Typography
+                  sx={{
+                    display: { xs: "flex", sm: "none" },
+                    fontWeight: "800",
+                  }}
+                >
+                  Category:
+                </Typography>
+                <Typography overflow='clip'>{category}</Typography>
+              </Stack>
+            </Item>
+          </Grid>
           <Grid item xs={12} sm={3}>
             <Item>
               <Box

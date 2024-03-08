@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // Material UI
 import {
   Box,
@@ -16,6 +16,7 @@ import {
 import { useGetOrdersQuery } from "../../../../../Apis/orderApi";
 // Interface
 import OrderHeader from "../../../../../Interfaces/orderHeaderModel";
+import { RightArrowIcon } from "../../../../../Icon";
 
 type Prop = {
   orderStatus: string;
@@ -93,7 +94,7 @@ export default function Orders({ orderStatus, setOrderStatus }: Prop) {
               </Typography>
             </Item>
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={1}>
             <Item>
               <Typography fontWeight='bold' overflow='hidden' align='left'>
                 Items
@@ -161,6 +162,7 @@ export default function Orders({ orderStatus, setOrderStatus }: Prop) {
 type OrderItemProp = {
   order: OrderHeader;
 };
+
 function OrderItem({ order }: OrderItemProp) {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -172,10 +174,24 @@ function OrderItem({ order }: OrderItemProp) {
       totalAmount += detail.price * detail.quantity;
     });
   }
+
+  const styles = {
+    "&: hover": {
+      backgroundColor: isMatch ? "blue" : "lightblue",
+    },
+    "& .appear-item": {
+      display: "none",
+    },
+    "&:hover .appear-item": {
+      display: "block",
+    },
+  };
+
   return (
     <Grid
       container
       sx={{
+        ...styles,
         backgroundColor: { xs: "#6a5acd", md: "transparent" },
         padding: { xs: "1rem .8rem" },
         color: { xs: "#fff", md: "black" },
@@ -193,20 +209,15 @@ function OrderItem({ order }: OrderItemProp) {
           >
             OrderID:
           </Typography>
-          <Link
-            to={"/admin/order/" + order.orderHeaderId}
-            style={{ textDecoration: isMatch ? "none" : "underline" }}
+          <Typography
+            overflow='hidden'
+            align='left'
+            sx={{
+              color: { xs: "#fff", md: "black" },
+            }}
           >
-            <Typography
-              overflow='hidden'
-              align='left'
-              sx={{
-                color: { xs: "#fff", md: "black" },
-              }}
-            >
-              # {order.orderHeaderId}
-            </Typography>
-          </Link>
+            # {order.orderHeaderId}
+          </Typography>
         </Stack>
       </Grid>
       <Grid item xs={12} md={2}>
@@ -228,7 +239,7 @@ function OrderItem({ order }: OrderItemProp) {
           </Typography>
         </Stack>
       </Grid>
-      <Grid item xs={12} md={2}>
+      <Grid item xs={12} md={1}>
         <Stack direction='row' spacing={1} useFlexGap>
           <Typography
             overflow='hidden'
@@ -292,37 +303,55 @@ function OrderItem({ order }: OrderItemProp) {
           >
             Total Price (₦):
           </Typography>
-          <Link
-            to={"/admin/order/" + order.orderHeaderId}
-            style={{ textDecoration: isMatch ? "none" : "underline" }}
+          <Typography
+            fontWeight='bold'
+            overflow='hidden'
+            align='center'
+            sx={{
+              color: { xs: "#fff", md: "black" },
+            }}
           >
-            <Typography
-              fontWeight='bold'
-              overflow='hidden'
-              align='center'
-              sx={{
-                color: { xs: "#fff", md: "black" },
-              }}
-            >
-              {totalAmount}
-            </Typography>
-          </Link>
+            {totalAmount}
+          </Typography>
         </Stack>
       </Grid>
       <Grid
         item
         xs={12}
-        md={2}
-        sx={{ display: { xs: "flex", md: "none" }, justifyContent: "end" }}
+        md={1}
+        alignSelf={"flex-start"}
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: isMatch ? "end" : "center",
+        }}
+        overflow='hidden'
       >
-        <Button
-          variant='contained'
-          type='button'
-          color='success'
-          onClick={() => navigate("/admin/order/" + order.orderHeaderId)}
-        >
-          View more
-        </Button>
+        {isMatch ? (
+          <Button
+            variant='contained'
+            type='button'
+            color='success'
+            onClick={() => navigate("/admin/order/" + order.orderHeaderId)}
+          >
+            View more
+          </Button>
+        ) : (
+          <Box
+            component='button'
+            className='appear-item'
+            sx={{
+              bgcolor: "#121212",
+              borderRadius: "50%",
+              p: ".3rem",
+              cursor: "pointer",
+            }}
+            title='View More'
+            onClick={() => navigate("/admin/order/" + order.orderHeaderId)}
+          >
+            <RightArrowIcon />
+          </Box>
+        )}
       </Grid>
     </Grid>
   );
